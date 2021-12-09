@@ -1,0 +1,24 @@
+{
+    "name": "com.moein.unity",
+    "displayName": "Moein",
+    "version": "1.0.0",
+    "unity": "2019.1",
+    "author": {
+        "name": "Seyed Moein Saadati",
+        "email": "saadatimoin@gmail.com",
+        "url": "https://seyedmoeinsaadati.github.io/"
+    },
+    "description": "",
+    "keywords": [
+        "Moein",
+        "Saadati",
+        "Seyed Moein",
+        "M100ETI"
+    ],
+    "dependencies": {},
+    "repository": {
+        "type": "git",
+        "url": "https://...",
+        "reversion": "..."
+    }
+}
