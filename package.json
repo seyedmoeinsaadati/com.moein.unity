@@ -8,7 +8,7 @@
         "email": "saadatimoin@gmail.com",
         "url": "https://seyedmoeinsaadati.github.io/"
     },
-    "description": "",
+    "description": "Some useful Packages Provided to the community for Unity Projects",
     "keywords": [
         "Moein",
         "Saadati",
@@ -18,7 +18,13 @@
     "dependencies": {},
     "repository": {
         "type": "git",
-        "url": "https://...",
-        "reversion": "..."
-    }
+        "url": "https://github.com/seyedmoeinsaadati/com.moein.unity.git",
+    },
+    "samples": [
+        {
+            "displayName": "Core Samples",
+            "description": "",
+            "path": "Samples/Core"
+        }
+    ]
 }
