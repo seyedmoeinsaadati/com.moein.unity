@@ -1,7 +1,7 @@
 {
     "name": "com.moein.unity",
     "displayName": "Moein",
-    "version": "1.0.0",
+    "version": "1.4.0",
     "unity": "2019.1",
     "author": {
         "name": "Seyed Moein Saadati",
@@ -11,6 +11,11 @@
     "description": "Some useful Packages Provided to the community for Unity Projects",
     "keywords": [
         "Moein",
+        "TMirrorT",
+        "Mirror",
+        "Logger",
+        "Randomize",
+        "Random",
         "Saadati",
         "Seyed Moein",
         "M100ETI"
