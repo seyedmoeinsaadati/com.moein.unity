@@ -7,7 +7,7 @@ namespace Moein.Log
 {
     public class LoggerEditor : EditorWindow
     {
-        [MenuItem("Moein/Create UILogger", false)]
+        [MenuItem("Moein/Create Logger Object", false)]
         public static void CreateUILogger()
         {
             GameObject uilogger = (GameObject)Instantiate(Resources.Load("Logger"), Vector3.zero, Quaternion.identity);

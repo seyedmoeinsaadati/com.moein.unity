@@ -25,6 +25,16 @@
             "displayName": "Core Samples",
             "description": "",
             "path": "Samples/Core"
+        },
+        {
+            "displayName": "Logger Samples",
+            "description": "",
+            "path": "Samples/Log"
+        },
+        {
+            "displayName": "Temp Project Folders",
+            "description": "",
+            "path": "Samples/TempAssets"
         }
     ]
 }

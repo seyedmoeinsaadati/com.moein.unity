@@ -23,7 +23,7 @@ namespace Moein.Log
         void Start()
         {
             loggers = new List<ILogger>();
-            content = transform.Find("Logger Text").GetComponent<Text>();
+            content = GetComponentInChildren<Text>();
             content.text = "";
             Invoke("RegisterLoggers", 1);
         }
