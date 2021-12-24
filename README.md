@@ -1,5 +1,7 @@
-# Moein (Git Unity Package)
+# Moein Unity Package
 <img src="https://github.com/seyedmoeinsaadati/com.moein.unity/blob/master/media/unitylogo.png" align="right" height="50px">
+
+![](https://img.shields.io/static/v1?label=Version&message=1.7.42&color=brightgreen)
 
 Some useful Packages Provided to the community for Unity Projects:
 
@@ -11,6 +13,14 @@ Some useful Packages Provided to the community for Unity Projects:
 - Object Recorder
 - Follower
 - AutoMotion (Coming soon)
+
+## How To Use ?
+
+1. Open Unity package manager
+2. Click on plus button
+3. Select "Add package from git URL" and enter repo URL.
+
+​	
 
 [![](https://img.shields.io/static/v1?label=Website&message=www.seyedmoeinsaadati.github.io&color=brightgreen)](https://www.seyedmoeinsaadati.github.io)
 [![](https://img.shields.io/static/v1?label=G-mail&message=saadatimoin@gmail.com&color=blue)](mailto:saadatimoin@gmail.com)
