@@ -7,25 +7,25 @@ Some useful Packages Provided to the community for Unity Projects:
 
 - Logger (
 
-  [Docs]: https://github.com/seyedmoeinsaadati/com.moein.unity/blob/master/docs/Logger_README.md	"Docs"
+  [Docs]: https://github.com/seyedmoeinsaadati/com.moein.unity/blob/master/Docs/Logger_README.md	"Docs"
 
   )
 
 - Randomize (
 
-  [Docs]: https://github.com/seyedmoeinsaadati/com.moein.unity/blob/master/docs/Randomize_README.md	"Docs"
+  [Docs]: https://github.com/seyedmoeinsaadati/com.moein.unity/blob/master/Docs/Randomize_README.md	"Docs"
 
   )
 
 - ThreeDDrawing (
 
-  [Docs]: https://github.com/seyedmoeinsaadati/com.moein.unity/blob/master/docs/ThreeTDrawing_README.md	"Docs"
+  [Docs]: https://github.com/seyedmoeinsaadati/com.moein.unity/blob/master/Docs/ThreeTDrawing_README.md	"Docs"
 
   )
 
 - TMirrorT (
 
-  [Docs]: https://github.com/seyedmoeinsaadati/com.moein.unity/blob/master/docs/TMirrorT_README.md	"Docs"
+  [Docs]: https://github.com/seyedmoeinsaadati/com.moein.unity/blob/master/Docs/TMirrorT_README.md	"Docs"
 
   )
 
