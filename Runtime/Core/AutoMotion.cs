@@ -22,7 +22,7 @@ namespace Moein.Core
 
 
         // Update is called once per frame
-        void Update()
+        private void Update()
         {
             if (Input.GetKeyDown(StartActionKey))
             {
@@ -38,17 +38,10 @@ namespace Moein.Core
             {
                 Reverse();
             }
+
+            if (isMotion) Action();
         }
 
-        void FixedUpdate()
-        {
-            if (!isMotion)
-            {
-                return;
-            }
-
-            Action();
-        }
 
         public void StartAction()
         {
@@ -65,7 +58,7 @@ namespace Moein.Core
             direction = -direction;
         }
 
-        void Action()
+        private void Action()
         {
             switch (motionType)
             {
