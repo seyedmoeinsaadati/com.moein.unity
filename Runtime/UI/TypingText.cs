@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Moein.Core
+namespace Moein.UI
 {
     public class TypingText : MonoBehaviour
     {
