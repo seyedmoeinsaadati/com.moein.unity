@@ -13,6 +13,11 @@ namespace Moein.Core
             self.gameObject.SetActive(active);
         }
 
+        public static void SetActive(this Transform self, bool active)
+        {
+            self.gameObject.SetActive(active);
+        }
+
         #endregion
 
         #region Transform
