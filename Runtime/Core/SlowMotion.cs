@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Moein.Trans.AutoMotion;
 using UnityEngine;
 
 namespace Moein.Core
@@ -6,10 +7,11 @@ namespace Moein.Core
     public class SlowMotion : MonoBehaviour
     {
         public float slowMotionFactor;
+
         [Tooltip("after time(s) starts to back normal")]
         public float slowMotionLenght;
-        [Tooltip("back to normal duration")]
-        public float bulletTimeLenght;
+
+        [Tooltip("back to normal duration")] public float bulletTimeLenght;
 
         public KeyCode slowMotionKey = KeyCode.E;
 
@@ -32,6 +34,7 @@ namespace Moein.Core
                 DoSlowMotion();
             }
         }
+
         private IEnumerator BackToNormalCoroutine()
         {
             while (true)
@@ -46,6 +49,7 @@ namespace Moein.Core
                     Time.fixedDeltaTime = 0.02f;
                     break;
                 }
+
                 yield return null;
             }
         }
