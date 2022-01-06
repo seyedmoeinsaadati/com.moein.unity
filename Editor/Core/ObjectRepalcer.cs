@@ -8,17 +8,17 @@ namespace Moein.Core
         public GameObject replaceObject;
 
         [MenuItem("Moein/Core/Object Replacer", false, 1)]
-        static void ReplaceObject()
+        private static void ReplaceObject()
         {
-            ScriptableWizard.DisplayWizard("Object Replacer", typeof(ObjectRepalcer), "Replace");
+            DisplayWizard("Object Replacer", typeof(ObjectRepalcer), "Replace");
         }
 
-        void OnWizardCreate()
+        private void OnWizardCreate()
         {
-            DoRepaceAll();
+            DoReplaceAll();
         }
 
-        private void DoRepaceAll()
+        private void DoReplaceAll()
         {
             Transform[] transforms = Selection.GetTransforms(SelectionMode.TopLevel | SelectionMode.ExcludePrefab);
             foreach (var item in transforms)
@@ -37,7 +37,7 @@ namespace Moein.Core
             newGo.transform.localScale = item.localScale;
             newGo.transform.parent = item.parent;
 
-            Undo.RegisterCreatedObjectUndo(newGo, "Repalce object");
+            Undo.RegisterCreatedObjectUndo(newGo, "Replace object");
             Undo.DestroyObjectImmediate(item.gameObject);
         }
     }
