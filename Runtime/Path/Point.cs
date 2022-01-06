@@ -18,7 +18,7 @@ namespace Moein.Path
         public Point(Vector3 position, Vector3 forward, Vector3 upward)
         {
             this.position = position;
-            this.forward = forward;
+            this.forward = forward * .05f;
             this.upward = upward * .05f;
         }
 

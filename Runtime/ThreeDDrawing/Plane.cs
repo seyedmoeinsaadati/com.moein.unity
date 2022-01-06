@@ -2,7 +2,6 @@ using UnityEngine;
 
 namespace Moein.Trans.Drawing
 {
-
     public class Plane : ThreeDDrawing
     {
         public enum PlaneType
@@ -12,10 +11,10 @@ namespace Moein.Trans.Drawing
             ZY
         }
 
-        [SerializeField]
-        protected PlaneType planeType;
+        [SerializeField] protected PlaneType planeType;
 
         Vector3[] p;
+
         protected override void OnDrawGizmos()
         {
 #if UNITY_EDITOR
@@ -62,7 +61,6 @@ namespace Moein.Trans.Drawing
             Gizmos.DrawLine(p[0], p[2]);
             Gizmos.DrawLine(p[1], p[3]);
             Gizmos.DrawLine(p[2], p[3]);
-
         }
 
         private void DrawPlane()

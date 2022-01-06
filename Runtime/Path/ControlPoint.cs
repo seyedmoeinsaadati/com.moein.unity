@@ -1,4 +1,5 @@
 ﻿using System;
+using Moein.Core;
 using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
@@ -91,6 +92,24 @@ namespace Moein.Path
             point = (ControlPoint) target;
         }
 
+        public override void OnInspectorGUI()
+        {
+            base.OnInspectorGUI();
+
+            if (Event.current.shift)
+            {
+                GUILayout.Label("Lock (XY)");
+            }
+            else if (Event.current.control)
+            {
+                GUILayout.Label("Lock (XZ)");
+            }
+            else if (Event.current.alt)
+            {
+                GUILayout.Label("Lock (YZ)");
+            }
+        }
+
         private void OnSceneGUI()
         {
             ControlTangents();
@@ -116,10 +135,13 @@ namespace Moein.Path
                     throw new ArgumentOutOfRangeException();
             }
 
+            newPos = DetectLimitation(newPos, point.StartTangent);
+
             if (point.StartTangent != newPos)
             {
                 Undo.RecordObject(point, "Move Start Tangent");
                 if (point.path.autoSetControlPoints) point.AutoSetEndTangent();
+
                 point.StartTangent = newPos;
             }
 
@@ -136,12 +158,44 @@ namespace Moein.Path
                     throw new ArgumentOutOfRangeException();
             }
 
+            newPos = DetectLimitation(newPos, point.EndTangent);
+
             if (point.EndTangent != newPos)
             {
                 Undo.RecordObject(point, "Move End Tangent");
                 if (point.path.autoSetControlPoints) point.AutoSetStartTangent();
+
                 point.EndTangent = newPos;
             }
+        }
+
+
+        /// <summary>
+        /// return position(XY) if shift is pressed
+        /// return position(XZ) if ctrl is pressed
+        /// return position(YZ) if alt is pressed
+        /// otherwise, return -1 
+        /// </summary>
+        /// <returns></returns>
+        public Vector3 DetectLimitation(Vector3 position, Vector3 defValue)
+        {
+            Event guiEvent = Event.current;
+            if (guiEvent.shift)
+            {
+                return position.To3XY(defValue.z);
+            }
+
+            if (guiEvent.control)
+            {
+                return position.To3XZ(defValue.y);
+            }
+
+            if (guiEvent.alt)
+            {
+                return position.To3YZ(defValue.x);
+            }
+
+            return position;
         }
 
         private void DrawTangentLines()

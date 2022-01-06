@@ -18,7 +18,7 @@ namespace Moein.Path
 
         [Header("Path Properties:")] [Min(1)] public int resolution = 16;
         [SerializeField] private float power = 1;
-        [SerializeField] private bool isClose = true;
+        [SerializeField] private bool isClose;
         public bool autoSetControlPoints = true;
         [Header("Visual")] public bool controlPreview = true;
 
@@ -104,7 +104,12 @@ namespace Moein.Path
 
         public void CalculatePoints()
         {
-            if (NumAnchors < 1) return;
+            if (NumAnchors < 1)
+            {
+                points = new List<Point>();
+                return;
+            }
+
             points = new List<Point>
                 {new Point(anchorPoints[0].position, anchorPoints[0].transform.forward, anchorPoints[0].transform.up)};
             totalLength = 0;
@@ -192,6 +197,20 @@ namespace Moein.Path
             }
 
             GUILayout.Label("Length : " + path.totalLength);
+
+
+            if (Event.current.shift)
+            {
+                GUILayout.Label("Lock (XY)");
+            }
+            else if (Event.current.control)
+            {
+                GUILayout.Label("Lock (XZ)");
+            }
+            else if (Event.current.alt)
+            {
+                GUILayout.Label("Lock (YZ)");
+            }
         }
 
         private void AddControlPoint()
@@ -233,6 +252,8 @@ namespace Moein.Path
                         throw new ArgumentOutOfRangeException();
                 }
 
+                newPos = DetectLimitation(newPos, point.StartTangent);
+
                 if (point.StartTangent != newPos)
                 {
                     Undo.RecordObject(point, "Move Start Tangent");
@@ -255,6 +276,8 @@ namespace Moein.Path
                         throw new ArgumentOutOfRangeException();
                 }
 
+                newPos = DetectLimitation(newPos, point.EndTangent);
+
                 if (point.EndTangent != newPos)
                 {
                     Undo.RecordObject(point, "Move End Tangent");
@@ -276,15 +299,33 @@ namespace Moein.Path
         }
 
 
-        // private void Input()
-        // {
-        //     Event guiEvent = Event.current;
-        //
-        //     Vector3 mousePos = HandleUtility.GUIPointToWorldRay(guiEvent.mousePosition).origin;
-        //     if (guiEvent.type == EventType.MouseDown && guiEvent.button == 0 && guiEvent.shift)
-        //     {
-        //     }
-        // }
+        /// <summary>
+        /// return position(XY) if shift is pressed
+        /// return position(XZ) if ctrl is pressed
+        /// return position(YZ) if alt is pressed
+        /// otherwise, return -1 
+        /// </summary>
+        /// <returns></returns>
+        public Vector3 DetectLimitation(Vector3 position, Vector3 defValue)
+        {
+            Event guiEvent = Event.current;
+            if (guiEvent.shift)
+            {
+                return position.To3XY(defValue.z);
+            }
+
+            if (guiEvent.control)
+            {
+                return position.To3XZ(defValue.y);
+            }
+
+            if (guiEvent.alt)
+            {
+                return position.To3YZ(defValue.x);
+            }
+
+            return position;
+        }
     }
 #endif
 }

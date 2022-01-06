@@ -65,6 +65,21 @@ namespace Moein.Core
             return new Vector3(defValue, self.x, self.y);
         }
 
+        public static Vector3 To3XZ(this Vector3 self, float defValue = 0)
+        {
+            return new Vector3(self.x, defValue, self.z);
+        }
+
+        public static Vector3 To3XY(this Vector3 self, float defValue = 0)
+        {
+            return new Vector3(self.x, self.y, defValue);
+        }
+
+        public static Vector3 To3YZ(this Vector3 self, float defValue = 0)
+        {
+            return new Vector3(defValue, self.y, self.z);
+        }
+
         #endregion
 
         #region Math
