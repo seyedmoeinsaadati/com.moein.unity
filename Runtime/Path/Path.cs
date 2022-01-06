@@ -36,6 +36,11 @@ namespace Moein.Path
             get { return points[0].Forward; }
         }
 
+        public Point StartPoint
+        {
+            get { return points[0]; }
+        }
+
         public void Create()
         {
             LoadAnchorPoints();
@@ -171,6 +176,55 @@ namespace Moein.Path
                 anchorPoints[i].AutoSetAffectedControlPoints();
             }
         }
+
+        #region Interface
+
+        public Point GetPoint(float distance)
+        {
+            float dst = 0;
+            distance %= totalLength;
+            for (int i = 0; i < points.Count; i++)
+            {
+                dst += Vector3.Distance(points[i].position, points[i + 1].position);
+                if (dst > distance)
+                {
+                    return points[i];
+                }
+            }
+
+            return null;
+        }
+
+        public Point GetNearestPoint(Vector3 position)
+        {
+            float minDst = float.MaxValue;
+            int index = 0;
+            for (int i = 0; i < points.Count; i++)
+            {
+                float dst = Vector3.Distance(points[i].position, position);
+                if (dst < minDst)
+                {
+                    index = i;
+                    minDst = dst;
+                }
+            }
+
+            return points[index];
+        }
+
+        public float GetDistanceFromNearestPoint(Vector3 position)
+        {
+            float minDst = float.MaxValue;
+            for (int i = 0; i < points.Count; i++)
+            {
+                float dst = Vector3.Distance(points[i].position, position);
+                if (dst < minDst) minDst = dst;
+            }
+
+            return minDst;
+        }
+
+        #endregion
     }
 
 #if UNITY_EDITOR
