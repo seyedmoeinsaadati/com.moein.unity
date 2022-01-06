@@ -198,6 +198,7 @@ namespace Moein.Path
             GameObject cPoint = new GameObject();
             cPoint.AddComponent<ControlPoint>().Init(path).transform.SetParent(path.transform);
             cPoint.transform.localPosition = path.NumAnchors > 0 ? path.transform.localPosition : Vector3.zero;
+            Undo.RegisterCreatedObjectUndo(cPoint, "Add Control Point");
         }
 
         private void OnSceneGUI()
