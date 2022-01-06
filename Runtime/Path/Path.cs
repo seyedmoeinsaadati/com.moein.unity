@@ -55,6 +55,8 @@ namespace Moein.Path
             {
                 anchorPoints[i].name = "Point " + i;
             }
+
+            if (anchorPoints.Length > 0) anchorPoints[0].transform.localPosition = Vector3.zero;
         }
 
         private void Reset()
@@ -75,7 +77,6 @@ namespace Moein.Path
 #endif
         private void DrawPath()
         {
-            if (anchorPoints.Length > 0) anchorPoints[0].transform.localPosition = Vector3.zero;
             for (int i = 0; i < points.Count - 1; i++)
             {
                 Gizmos.color = PathConfig.pathColor;
@@ -182,9 +183,21 @@ namespace Moein.Path
             base.OnInspectorGUI();
 
             if (path.NumAnchors < 2)
-                EditorGUILayout.HelpBox("Add to ControlPoint object for creating path", MessageType.Info);
+                EditorGUILayout.HelpBox("Add two ControlPoint object to create path", MessageType.Info);
+
+            if (GUILayout.Button("Add Control Point"))
+            {
+                AddControlPoint();
+            }
 
             GUILayout.Label("Length : " + path.totalLength);
+        }
+
+        private void AddControlPoint()
+        {
+            GameObject cPoint = new GameObject();
+            cPoint.AddComponent<ControlPoint>().Init(path).transform.SetParent(path.transform);
+            cPoint.transform.localPosition = path.NumAnchors > 0 ? path.transform.localPosition : Vector3.zero;
         }
 
         private void OnSceneGUI()

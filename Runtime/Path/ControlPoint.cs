@@ -27,11 +27,12 @@ namespace Moein.Path
 
         public Vector3 position => transform.position;
 
-        public void Init(Path path)
+        public ControlPoint Init(Path path)
         {
             this.path = path;
             localStartTangent = transform.up;
             localEndTangent = -transform.up;
+            return this;
         }
 
         public void AutoSetAffectedControlPoints()
