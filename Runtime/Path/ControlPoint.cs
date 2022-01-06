@@ -35,6 +35,22 @@ namespace Moein.Path
             return this;
         }
 
+        public ControlPoint Init(Path path, Vector3 localStartTangent, Vector3 localEndTangent)
+        {
+            this.path = path;
+            this.localStartTangent = localStartTangent;
+            this.localEndTangent = localEndTangent;
+            return this;
+        }
+
+        public ControlPoint Init(Path path, Vector3 tangentDirection)
+        {
+            this.path = path;
+            this.localStartTangent = tangentDirection;
+            this.localEndTangent = -tangentDirection;
+            return this;
+        }
+
         public void AutoSetAffectedControlPoints()
         {
             AutoSetStartTangent();

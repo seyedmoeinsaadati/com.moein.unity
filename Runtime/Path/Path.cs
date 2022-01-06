@@ -104,6 +104,7 @@ namespace Moein.Path
 
         public void CalculatePoints()
         {
+            if (NumAnchors < 1) return;
             points = new List<Point>
                 {new Point(anchorPoints[0].position, anchorPoints[0].transform.forward, anchorPoints[0].transform.up)};
             totalLength = 0;
