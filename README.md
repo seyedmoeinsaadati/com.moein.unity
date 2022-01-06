@@ -1,15 +1,16 @@
 # Moein Unity Package
 <img src="https://github.com/seyedmoeinsaadati/com.moein.unity/blob/master/media/unitylogo.png" align="right" height="50px">
 
-![](https://img.shields.io/static/v1?label=Version&message=1.7.42&color=brightgreen)
+![](https://img.shields.io/static/v1?label=Version&message=1.8.51&color=brightgreen)
 
-Some useful Packages Provided to the community for Unity Projects:
+Some useful tools provided to the community for Unity Projects:
 
 - Core
 - Logger ( [Docs](https://github.com/seyedmoeinsaadati/com.moein.unity/blob/master/Docs/Logger_README.md) )
 - Randomize ( [Docs](https://github.com/seyedmoeinsaadati/com.moein.unity/blob/master/Docs/Randomize_README.md) )
 - ThreeDDrawing ( [Docs](https://github.com/seyedmoeinsaadati/com.moein.unity/blob/master/Docs/ThreeTDrawing_README.md) )
 - TMirrorT ( [Docs](https://github.com/seyedmoeinsaadati/com.moein.unity/blob/master/Docs/TMirrorT_README.md) )
+- 3D Path Editor
 - Object Recorder
 - Follower
 - AutoMotion (Coming soon)
