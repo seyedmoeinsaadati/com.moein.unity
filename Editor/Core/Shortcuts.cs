@@ -2,7 +2,7 @@
 using UnityEngine;
 using static UnityEditor.SceneView;
 
-public class Shortcuts : MonoBehaviour
+public class Shortcuts
 {
     [MenuItem("Moein/Core/Wireframe Mode &w", false)]
     public static void ChangeDrawCameraMode()
