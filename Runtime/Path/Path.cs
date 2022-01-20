@@ -4,7 +4,6 @@ using Moein.Core;
 using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
-
 #endif
 
 namespace Moein.Path
@@ -16,7 +15,7 @@ namespace Moein.Path
         [HideInInspector] public List<Point> points;
         [HideInInspector] public float totalLength;
 
-        [Header("Path Properties:")] [Min(1)] public int resolution = 16;
+        [Header("Path Properties:")] [Min(1)] public int resolution = 64;
         [SerializeField] private float power = 1;
         [SerializeField] private bool isClose;
         public bool autoSetControlPoints = true;
@@ -28,6 +27,8 @@ namespace Moein.Path
         {
             get { return isClose ? anchorPoints.Length : anchorPoints.Length - 1; }
         }
+
+        public int NumPoints { get { return points.Count; } }
 
         public float TotalLength => totalLength;
 
@@ -177,8 +178,6 @@ namespace Moein.Path
             }
         }
 
-        #region Interface
-
         public Point GetPoint(float distance)
         {
             float dst = 0;
@@ -224,7 +223,18 @@ namespace Moein.Path
             return minDst;
         }
 
-        #endregion
+        public Point this[int i]
+        {
+            get
+            {
+                if (points.Count > 0)
+                {
+                    return points[i];
+                }
+                return null;
+            }
+        }
+
     }
 
 #if UNITY_EDITOR
@@ -235,7 +245,7 @@ namespace Moein.Path
 
         private void OnEnable()
         {
-            path = (Path) target;
+            path = (Path)target;
         }
 
         public override void OnInspectorGUI()
