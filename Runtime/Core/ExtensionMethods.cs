@@ -50,34 +50,68 @@ namespace Moein.Core
             return new Vector2(self.y, self.z);
         }
 
-        public static Vector3 ToXZ(this Vector2 self, float defValue = 0)
+        public static Vector3 ToXZ(this Vector2 self, float yValue = 0)
         {
-            return new Vector3(self.x, defValue, self.y);
+            return new Vector3(self.x, yValue, self.y);
         }
 
-        public static Vector3 ToXY(this Vector2 self, float defValue = 0)
+        public static Vector3 ToXY(this Vector2 self, float zValue = 0)
         {
-            return new Vector3(self.x, self.y, defValue);
+            return new Vector3(self.x, self.y, zValue);
         }
 
-        public static Vector3 ToYZ(this Vector2 self, float defValue = 0)
+        public static Vector3 ToYZ(this Vector2 self, float xValue = 0)
         {
-            return new Vector3(defValue, self.x, self.y);
+            return new Vector3(xValue, self.x, self.y);
         }
 
-        public static Vector3 To3XZ(this Vector3 self, float defValue = 0)
+        public static Vector3 To3XZ(this Vector3 self, float yValue = 0)
         {
-            return new Vector3(self.x, defValue, self.z);
+            return new Vector3(self.x, yValue, self.z);
         }
 
-        public static Vector3 To3XY(this Vector3 self, float defValue = 0)
+        public static Vector3 To3XY(this Vector3 self, float zValue = 0)
         {
-            return new Vector3(self.x, self.y, defValue);
+            return new Vector3(self.x, self.y, zValue);
         }
 
-        public static Vector3 To3YZ(this Vector3 self, float defValue = 0)
+        public static Vector3 To3YZ(this Vector3 self, float xValue = 0)
         {
-            return new Vector3(defValue, self.y, self.z);
+            return new Vector3(xValue, self.y, self.z);
+        }
+
+        public static Vector2 Lerp(this Vector2 self, Vector2 target, Vector2 t)
+        {
+            Vector2 result = Vector3.zero;
+            result.x = Mathf.Lerp(self.x, target.x, t.x);
+            result.y = Mathf.Lerp(self.y, target.y, t.y);
+            return result;
+        }
+
+        public static Vector2 Lerp(this Vector2 self, Vector2 start, Vector3 end, Vector2 t)
+        {
+            Vector2 result = Vector3.zero;
+            result.x = Mathf.Lerp(start.x, end.x, t.x);
+            result.y = Mathf.Lerp(start.y, end.y, t.y);
+            return result;
+        }
+
+        public static Vector3 Lerp(this Vector3 self, Vector3 target, Vector3 t)
+        {
+            Vector3 result = Vector3.zero;
+            result.x = Mathf.Lerp(self.x, target.x, t.x);
+            result.y = Mathf.Lerp(self.y, target.y, t.y);
+            result.z = Mathf.Lerp(self.z, target.z, t.z);
+            return result;
+        }
+
+        public static Vector3 Lerp(this Vector3 self, Vector3 start, Vector3 end, Vector3 t)
+        {
+            Vector3 result = Vector3.zero;
+            result.x = Mathf.Lerp(start.x, end.x, t.x);
+            result.y = Mathf.Lerp(start.y, end.y, t.y);
+            result.z = Mathf.Lerp(start.z, end.z, t.z);
+            return result;
         }
 
         #endregion
@@ -148,26 +182,47 @@ namespace Moein.Core
             return new Vector3(0, xVal, yVal);
         }
 
-        public static Vector3 SpiralLerpXZ(this Vector3 self, Vector3 offset, float circleSpeed, float forwardSpeed)
+        /// <summary>
+        /// Spiral translation around a position (offset) in XZ plane
+        /// </summary>
+        /// <param name="offset">point</param>
+        /// <param name="rotationSpeed">roataion speed</param>
+        /// <param name="forwardSpeed">distance between actor and point</param>
+        /// <returns></returns>
+        public static Vector3 SpiralLerpXZ(this Vector3 self, Vector3 offset, float rotationSpeed, float forwardSpeed)
         {
-            self.x = Mathf.Sin(circleSpeed) * forwardSpeed;
-            self.z = Mathf.Cos(circleSpeed) * forwardSpeed;
+            self.x = Mathf.Sin(rotationSpeed) * forwardSpeed;
+            self.z = Mathf.Cos(rotationSpeed) * forwardSpeed;
             self += offset;
             return self;
         }
 
-        public static Vector3 SpiralLerpYZ(this Vector3 self, Vector3 offset, float circleSpeed, float forwardSpeed)
+        /// <summary>
+        /// Spiral translation around a position (offset) in YZ plane
+        /// </summary>
+        /// <param name="offset">point</param>
+        /// <param name="rotationSpeed">roataion speed</param>
+        /// <param name="forwardSpeed">distance between actor and point</param>
+        /// <returns></returns>
+        public static Vector3 SpiralLerpYZ(this Vector3 self, Vector3 offset, float rotationSpeed, float forwardSpeed)
         {
-            self.y = Mathf.Sin(circleSpeed) * forwardSpeed;
-            self.z = Mathf.Cos(circleSpeed) * forwardSpeed;
+            self.y = Mathf.Sin(rotationSpeed) * forwardSpeed;
+            self.z = Mathf.Cos(rotationSpeed) * forwardSpeed;
             self += offset;
             return self;
         }
 
-        public static Vector3 SpiralLerpXY(this Vector3 self, Vector3 offset, float circleSpeed, float forwardSpeed)
+        /// <summary>
+        /// Spiral translation around a position (offset) in XY plane
+        /// </summary>
+        /// <param name="offset">point</param>
+        /// <param name="rotationSpeed">roataion speed</param>
+        /// <param name="forwardSpeed">distance between actor and point</param>
+        /// <returns></returns>
+        public static Vector3 SpiralLerpXY(this Vector3 self, Vector3 offset, float rotationSpeed, float forwardSpeed)
         {
-            self.x = Mathf.Sin(circleSpeed) * forwardSpeed;
-            self.y = Mathf.Cos(circleSpeed) * forwardSpeed;
+            self.x = Mathf.Sin(rotationSpeed) * forwardSpeed;
+            self.y = Mathf.Cos(rotationSpeed) * forwardSpeed;
             self += offset;
             return self;
         }
