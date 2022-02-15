@@ -148,6 +148,30 @@ namespace Moein.Core
             return new Vector3(0, xVal, yVal);
         }
 
+        public static Vector3 SpiralLerpXZ(this Vector3 self, Vector3 offset, float circleSpeed, float forwardSpeed)
+        {
+            self.x = Mathf.Sin(circleSpeed) * forwardSpeed;
+            self.z = Mathf.Cos(circleSpeed) * forwardSpeed;
+            self += offset;
+            return self;
+        }
+
+        public static Vector3 SpiralLerpYZ(this Vector3 self, Vector3 offset, float circleSpeed, float forwardSpeed)
+        {
+            self.y = Mathf.Sin(circleSpeed) * forwardSpeed;
+            self.z = Mathf.Cos(circleSpeed) * forwardSpeed;
+            self += offset;
+            return self;
+        }
+
+        public static Vector3 SpiralLerpXY(this Vector3 self, Vector3 offset, float circleSpeed, float forwardSpeed)
+        {
+            self.x = Mathf.Sin(circleSpeed) * forwardSpeed;
+            self.y = Mathf.Cos(circleSpeed) * forwardSpeed;
+            self += offset;
+            return self;
+        }
+
         #endregion
 
         #region Randomize
@@ -179,7 +203,7 @@ namespace Moein.Core
 
         public static bool Contains(this LayerMask self, int layer)
         {
-            return ((int) Mathf.Pow(2, layer) & self) != 0;
+            return ((int)Mathf.Pow(2, layer) & self) != 0;
         }
 
         #endregion
