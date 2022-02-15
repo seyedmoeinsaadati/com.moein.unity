@@ -1,7 +1,7 @@
 {
   "name": "com.moein.unity",
   "displayName": "Moein",
-  "version": "1.8.61",
+  "version": "1.8.70",
   "unity": "2019.1",
   "author": {
     "name": "Seyed Moein Saadati",
@@ -23,6 +23,7 @@
     "Follow",
     "Random",
     "Saadati",
+    "Lerp",
     "Seyed Moein",
     "M100ETI"
   ],
@@ -51,6 +52,11 @@
       "displayName": "Temp Project Folders",
       "description": "",
       "path": "Samples/TempAssets"
+    },
+    {
+      "displayName": "Lerps",
+      "description": "Sample scripts for spiral lerp, random lerp, addictive lerp",
+      "path": "Samples/LerpSampleCode"
     }
   ]
 }
