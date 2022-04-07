@@ -1,10 +1,13 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using Random = UnityEngine.Random;
 
 namespace Moein.Core
 {
     public static class ExtensionMethods
     {
+        private static System.Random rng = new System.Random();
+
         #region GameObject
 
         public static void SetActive(this Component self, bool active)
@@ -114,17 +117,6 @@ namespace Moein.Core
             return result;
         }
 
-        #endregion
-
-        #region Math
-
-        public static float ChangeRange(this float value, float firstRangeMin, float firstRangeMax,
-            float secondRangeMin, float secondRangeMax)
-        {
-            return (value - firstRangeMin) *
-                Mathf.Abs((secondRangeMax - secondRangeMin) / (firstRangeMax - firstRangeMin)) + secondRangeMin;
-        }
-
         /// <summary>
         /// Rotate 2D point (XY)
         /// </summary>
@@ -186,7 +178,7 @@ namespace Moein.Core
         /// Spiral translation around a position (offset) in XZ plane
         /// </summary>
         /// <param name="offset">point</param>
-        /// <param name="rotationSpeed">roataion speed</param>
+        /// <param name="rotationSpeed">rotation speed</param>
         /// <param name="forwardSpeed">distance between actor and point</param>
         /// <returns></returns>
         public static Vector3 SpiralLerpXZ(this Vector3 self, Vector3 offset, float rotationSpeed, float forwardSpeed)
@@ -201,7 +193,7 @@ namespace Moein.Core
         /// Spiral translation around a position (offset) in YZ plane
         /// </summary>
         /// <param name="offset">point</param>
-        /// <param name="rotationSpeed">roataion speed</param>
+        /// <param name="rotationSpeed">rotation speed</param>
         /// <param name="forwardSpeed">distance between actor and point</param>
         /// <returns></returns>
         public static Vector3 SpiralLerpYZ(this Vector3 self, Vector3 offset, float rotationSpeed, float forwardSpeed)
@@ -216,7 +208,7 @@ namespace Moein.Core
         /// Spiral translation around a position (offset) in XY plane
         /// </summary>
         /// <param name="offset">point</param>
-        /// <param name="rotationSpeed">roataion speed</param>
+        /// <param name="rotationSpeed">rotation speed</param>
         /// <param name="forwardSpeed">distance between actor and point</param>
         /// <returns></returns>
         public static Vector3 SpiralLerpXY(this Vector3 self, Vector3 offset, float rotationSpeed, float forwardSpeed)
@@ -225,6 +217,116 @@ namespace Moein.Core
             self.y = Mathf.Cos(rotationSpeed) * forwardSpeed;
             self += offset;
             return self;
+        }
+
+        #endregion
+
+        #region Quaternion
+
+        /// <summary>
+        /// Clamp rotation angles
+        /// </summary>
+        public static Quaternion ClampRotation(this Quaternion self, float minimumX, float maximumX, float minimumY,
+            float maximumY, float minimumZ, float maximumZ)
+        {
+            self.x /= self.w;
+            self.y /= self.w;
+            self.z /= self.w;
+            self.w = 1.0f;
+
+            float angleX = 2.0f * Mathf.Rad2Deg * Mathf.Atan(self.x);
+            angleX = Mathf.Clamp(angleX, minimumX, maximumX);
+            self.x = Mathf.Tan(0.5f * Mathf.Deg2Rad * angleX);
+
+            float angleY = 2.0f * Mathf.Rad2Deg * Mathf.Atan(self.y);
+            angleY = Mathf.Clamp(angleY, minimumY, maximumY);
+            self.y = Mathf.Tan(0.5f * Mathf.Deg2Rad * angleY);
+
+            float angleZ = 2.0f * Mathf.Rad2Deg * Mathf.Atan(self.z);
+            angleZ = Mathf.Clamp(angleZ, minimumZ, maximumZ);
+            self.z = Mathf.Tan(0.5f * Mathf.Deg2Rad * angleZ);
+
+            return self;
+        }
+
+        /// <summary>
+        /// Clamp rotation angles
+        /// </summary>
+        /// <param name="min">minimum angles</param>
+        /// <param name="max">maximum angles</param>
+        public static Quaternion ClampRotation(this Quaternion self, Vector3 min, Vector3 max)
+        {
+            self.x /= self.w;
+            self.y /= self.w;
+            self.z /= self.w;
+            self.w = 1.0f;
+
+            float angleX = 2.0f * Mathf.Rad2Deg * Mathf.Atan(self.x);
+            angleX = Mathf.Clamp(angleX, min.x, max.x);
+            self.x = Mathf.Tan(0.5f * Mathf.Deg2Rad * angleX);
+
+            float angleY = 2.0f * Mathf.Rad2Deg * Mathf.Atan(self.y);
+            angleY = Mathf.Clamp(angleY, min.y, max.y);
+            self.y = Mathf.Tan(0.5f * Mathf.Deg2Rad * angleY);
+
+            float angleZ = 2.0f * Mathf.Rad2Deg * Mathf.Atan(self.z);
+            angleZ = Mathf.Clamp(angleZ, min.z, max.z);
+            self.z = Mathf.Tan(0.5f * Mathf.Deg2Rad * angleZ);
+
+            return self;
+        }
+
+        public static Quaternion ClampRotationAroundX(this Quaternion self, float minimumX, float maximumX)
+        {
+            self.x /= self.w;
+            self.y /= self.w;
+            self.z /= self.w;
+            self.w = 1.0f;
+
+            float angleX = 2.0f * Mathf.Rad2Deg * Mathf.Atan(self.x);
+            angleX = Mathf.Clamp(angleX, minimumX, maximumX);
+            self.x = Mathf.Tan(0.5f * Mathf.Deg2Rad * angleX);
+
+            return self;
+        }
+
+        public static Quaternion ClampRotationAroundY(this Quaternion self, float minimumY, float maximumY)
+        {
+            self.x /= self.w;
+            self.y /= self.w;
+            self.z /= self.w;
+            self.w = 1.0f;
+
+            float angleY = 2.0f * Mathf.Rad2Deg * Mathf.Atan(self.y);
+            angleY = Mathf.Clamp(angleY, minimumY, maximumY);
+            self.y = Mathf.Tan(0.5f * Mathf.Deg2Rad * angleY);
+
+            return self;
+        }
+
+        public static Quaternion ClampRotationAroundZ(this Quaternion self, float minimumZ, float maximumZ)
+        {
+            self.x /= self.w;
+            self.y /= self.w;
+            self.z /= self.w;
+            self.w = 1.0f;
+
+            float angleZ = 2.0f * Mathf.Rad2Deg * Mathf.Atan(self.z);
+            angleZ = Mathf.Clamp(angleZ, minimumZ, maximumZ);
+            self.z = Mathf.Tan(0.5f * Mathf.Deg2Rad * angleZ);
+
+            return self;
+        }
+
+        #endregion
+
+        #region Math
+
+        public static float ChangeRange(this float value, float firstRangeMin, float firstRangeMax,
+            float secondRangeMin, float secondRangeMax)
+        {
+            return (value - firstRangeMin) *
+                Mathf.Abs((secondRangeMax - secondRangeMin) / (firstRangeMax - firstRangeMin)) + secondRangeMin;
         }
 
         #endregion
@@ -252,13 +354,24 @@ namespace Moein.Core
             return self;
         }
 
+        public static void Shuffle<T>(this IList<T> list)
+        {
+            int n = list.Count;
+            while (n > 1)
+            {
+                n--;
+                int k = rng.Next(n + 1);
+                (list[k], list[n]) = (list[n], list[k]);
+            }
+        }
+
         #endregion
 
         #region Layer
 
         public static bool Contains(this LayerMask self, int layer)
         {
-            return ((int)Mathf.Pow(2, layer) & self) != 0;
+            return ((int) Mathf.Pow(2, layer) & self) != 0;
         }
 
         #endregion
