@@ -375,5 +375,21 @@ namespace Moein.Core
         }
 
         #endregion
+
+        #region Color
+
+        /// <summary>
+        /// convert a color to hex format (#RRGGBB or #AARRGGBB) 
+        /// </summary>
+        public static string ColorToHex(this Color self, bool alphaChannel = false)
+        {
+            int a = (int) (self.a * 255);
+            int r = (int) (self.r * 255);
+            int g = (int) (self.g * 255);
+            int b = (int) (self.b * 255);
+            return "#" + (alphaChannel ? a.ToString("X2") : "") + r.ToString("X2") + g.ToString("X2") + b.ToString("X2");
+        }
+
+        #endregion
     }
 }
