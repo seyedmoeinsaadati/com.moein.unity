@@ -151,7 +151,6 @@ namespace Moein.Tweening
                     target.localRotation = Quaternion.Slerp(startValue, endQ, ease.Evaluate(t));
                     yield return null;
                 }
-
                 target.localRotation = endQ;
             }
             else
