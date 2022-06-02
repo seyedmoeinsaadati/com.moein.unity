@@ -2,10 +2,11 @@
 
 namespace Moein
 {
-    public class Easing
+    public static class Easing
     {
         public enum Ease
         {
+            Linear,
             InSin,
             OutSin,
             InOutSin,
@@ -38,8 +39,16 @@ namespace Moein
             InOutBounce
         }
 
-        public static float PI = Mathf.PI;
-        public static float Evaluate(float t)
+        private static readonly float PI = Mathf.PI;
+        private static readonly float c1 = 1.70158f;
+        private static readonly float c2 = c1 * 1.525f;
+        private static readonly float c3 = c1 + 1;
+        private static readonly float c4 = (2 * PI) / 3;
+        private static readonly float c5 = (2 * PI) / 4.5f;
+        private static readonly float n1 = 7.5625f;
+        private static readonly float d1 = 2.75f;
+
+        public static float Evaluate(this Ease self, float t)
         {
             return 0;
         }
@@ -111,5 +120,142 @@ namespace Moein
         }
 
         #endregion
+
+        #region Quint
+
+        private static float EaseInQuint(float t)
+        {
+            return t * t * t * t * t;
+        }
+
+        private static float EaseOutQuint(float t)
+        {
+            return 1 - Mathf.Pow(1 - t, 5);
+        }
+
+        private static float EaseInOutQuint(float t)
+        {
+            return t < 0.5 ? 16 * t * t * t * t * t : 1 - Mathf.Pow(-2 * t + 2, 5) / 2;
+        }
+
+        #endregion
+
+        #region Expo
+
+        private static float EaseInExpo(float t)
+        {
+            return t == 0 ? 0 : Mathf.Pow(2, 10 * t - 10);
+        }
+
+        private static float EaseOutExpo(float t)
+        {
+            return t == 1 ? 1 : 1 - Mathf.Pow(2, -10 * t);
+        }
+
+        private static float EaseInOutExpo(float t)
+        {
+            return t == 0 ? 0 :
+                t == 1 ? 1 :
+                t < 0.5 ? Mathf.Pow(2, 20 * t - 10) / 2 :
+                (2 - Mathf.Pow(2, -20 * t + 10)) / 2;
+        }
+
+        #endregion
+
+        #region Circ
+
+        private static float EaseInCirc(float t)
+        {
+            return 1 - Mathf.Sqrt(1 - Mathf.Pow(t, 2));
+        }
+
+        private static float EaseOutCirc(float t)
+        {
+            return Mathf.Sqrt(1 - Mathf.Pow(t - 1, 2));
+        }
+
+        private static float EaseInOutCirc(float t)
+        {
+            return t < 0.5 ? (1 - Mathf.Sqrt(1 - Mathf.Pow(2 * t, 2))) / 2
+            : (Mathf.Sqrt(1 - Mathf.Pow(-2 * t + 2, 2)) + 1) / 2;
+        }
+
+        #endregion
+
+        #region Back
+
+        private static float EaseInBack(float t)
+        {
+            return c3 * t * t * t - c1 * t * t;
+        }
+
+        private static float EaseOutBack(float t)
+        {
+            return 1 + c3 * Mathf.Pow(t - 1, 3) + c1 * Mathf.Pow(t - 1, 2);
+        }
+
+        private static float EaseInOutBack(float t)
+        {
+            return t < 0.5 ? (Mathf.Pow(2 * t, 2) * ((c2 + 1) * 2 * t - c2)) / 2
+            : (Mathf.Pow(2 * t - 2, 2) * ((c2 + 1) * (t * 2 - 2) + c2) + 2) / 2;
+        }
+
+        #endregion
+
+        #region Elastic
+
+        private static float EaseInElastic(float t)
+        {
+            return t == 0 ? 0
+            : t == 1 ? 1
+            : -Mathf.Pow(2, 10 * t - 10) * Mathf.Sin(t * 10 - 10.75f) * c4;
+        }
+
+        private static float EaseOutElastic(float t)
+        {
+            return t == 0 ? 0
+            : t == 1 ? 1
+            : Mathf.Pow(2, -10 * t) * Mathf.Sin((t * 10 - 0.75f) * c4) + 1;
+        }
+
+        private static float EaseInOutElastic(float t)
+        {
+            return t == 0 ? 0
+              : t == 1 ? 1
+              : t < 0.5 ? -(Mathf.Pow(2, 20 * t - 10) * Mathf.Sin((20 * t - 11.125f) * c5)) / 2
+              : (Mathf.Pow(2, -20 * t + 10) * Mathf.Sin((20 * t - 11.125f) * c5)) / 2 + 1;
+        }
+
+        #endregion
+
+        #region Bounce
+
+        private static float EaseInBounce(float t)
+        {
+            return 1 - EaseOutBounce(1 - t);
+        }
+
+        private static float EaseOutBounce(float t)
+        {
+            if (t < 1 / d1) return n1 * t * t;
+            else if (t < 2 / d1) return n1 * (t -= 1.5f / d1) * t + 0.75f;
+            else if (t < 2.5f / d1) return n1 * (t -= 2.25f / d1) * t + 0.9375f;
+            else return n1 * (t -= 2.625f / d1) * t + 0.984375f;
+        }
+
+        private static float EaseInOutBounce(float t)
+        {
+            return t < 0.5 ? (1 - EaseOutBounce(1 - 2 * t)) / 2
+            : (1 + EaseOutBounce(2 * t - 1)) / 2;
+        }
+
+        #endregion
+
+        private static float EaseLinear(float t)
+        {
+            return t;
+        }
+
     }
+
 }
