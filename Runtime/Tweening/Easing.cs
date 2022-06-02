@@ -1,44 +1,44 @@
 ﻿using UnityEngine;
 
-namespace Moein
+namespace Moein.Tweening
 {
+    public enum Ease
+    {
+        Linear,
+        InSin,
+        OutSin,
+        InOutSin,
+        InQuad,
+        OutQuad,
+        InOutQuad,
+        InCubic,
+        OutCubic,
+        InOutCubic,
+        InQuart,
+        OutQuart,
+        InOutQuart,
+        InQuint,
+        OutQuint,
+        InOutQuint,
+        InExpo,
+        OutExpo,
+        InOutExpo,
+        InCirc,
+        OutCirc,
+        InOutCirc,
+        InBack,
+        OutBack,
+        InOutBack,
+        InElastic,
+        OutElastic,
+        InOutElastic,
+        InBounce,
+        OutBounce,
+        InOutBounce
+    }
+
     public static class Easing
     {
-        public enum Ease
-        {
-            Linear,
-            InSin,
-            OutSin,
-            InOutSin,
-            InQuad,
-            OutQuad,
-            InOutQuad,
-            InCubic,
-            OutCubic,
-            InOutCubic,
-            InQuart,
-            OutQuart,
-            InOutQuart,
-            InQuint,
-            OutQuint,
-            InOutQuint,
-            InExpo,
-            OutExpo,
-            InOutExpo,
-            InCirc,
-            OutCirc,
-            InOutCirc,
-            InBack,
-            OutBack,
-            InOutBack,
-            InElastic,
-            OutElastic,
-            InOutElastic,
-            InBounce,
-            OutBounce,
-            InOutBounce
-        }
-
         private static readonly float PI = Mathf.PI;
         private static readonly float c1 = 1.70158f;
         private static readonly float c2 = c1 * 1.525f;
@@ -324,5 +324,4 @@ namespace Moein
         }
 
     }
-
 }
