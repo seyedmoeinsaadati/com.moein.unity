@@ -60,5 +60,22 @@ namespace Moein
         }
 
         #endregion
+
+        #region Quad
+
+        private static float EaseInQuad(float t)
+        {
+            return t * t;
+        }
+        private static float EaseOutQuad(float t)
+        {
+            return 1 - (1 - t) * (1 - t);
+        }
+        private static float EaseInOutQuad(float t)
+        {
+            return t < 0.5 ? 2 * t * t : 1 - Mathf.Pow(-2 * t + 2, 2) / 2;
+        }
+
+        #endregion
     }
 }
