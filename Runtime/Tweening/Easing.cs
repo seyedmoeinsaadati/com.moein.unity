@@ -38,9 +38,27 @@ namespace Moein
             InOutBounce
         }
 
+        public static float PI = Mathf.PI;
         public static float Evaluate(float t)
         {
             return 0;
         }
+
+        #region Sin
+
+        private static float EaseInSin(float t)
+        {
+            return 1 - Mathf.Cos((t * PI) / 2);
+        }
+        private static float EaseOutSin(float t)
+        {
+            return Mathf.Sin((t * PI) / 2); ;
+        }
+        private static float EaseInOutSin(float t)
+        {
+            return -(Mathf.Cos(t * PI) - 1) / 2;
+        }
+
+        #endregion
     }
 }
