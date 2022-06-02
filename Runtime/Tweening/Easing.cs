@@ -50,7 +50,74 @@ namespace Moein
 
         public static float Evaluate(this Ease self, float t)
         {
-            return 0;
+            switch (self)
+            {
+                case Ease.Linear:
+                    return EaseLinear(t);
+                case Ease.InSin:
+                    return EaseInSin(t);
+                case Ease.OutSin:
+                    return EaseOutSin(t);
+                case Ease.InOutSin:
+                    return EaseInOutSin(t);
+                case Ease.InQuad:
+                    return EaseInQuad(t);
+                case Ease.OutQuad:
+                    return EaseOutQuad(t);
+                case Ease.InOutQuad:
+                    return EaseInOutQuad(t);
+                case Ease.InCubic:
+                    return EaseInCubic(t);
+                case Ease.OutCubic:
+                    return EaseOutCubic(t);
+                case Ease.InOutCubic:
+                    return EaseInOutCubic(t);
+                case Ease.InQuart:
+                    return EaseInQuart(t);
+                case Ease.OutQuart:
+                    return EaseOutQuart(t);
+                case Ease.InOutQuart:
+                    return EaseInOutQuart(t);
+                case Ease.InQuint:
+                    return EaseInQuint(t);
+                case Ease.OutQuint:
+                    return EaseOutQuint(t);
+                case Ease.InOutQuint:
+                    return EaseInOutQuint(t);
+                case Ease.InExpo:
+                    return EaseInExpo(t);
+                case Ease.OutExpo:
+                    return EaseOutExpo(t);
+                case Ease.InOutExpo:
+                    return EaseInOutExpo(t);
+                case Ease.InCirc:
+                    return EaseInCirc(t);
+                case Ease.OutCirc:
+                    return EaseOutCirc(t);
+                case Ease.InOutCirc:
+                    return EaseInOutCirc(t);
+                case Ease.InBack:
+                    return EaseInBack(t);
+                case Ease.OutBack:
+                    return EaseOutBack(t);
+                case Ease.InOutBack:
+                    return EaseInOutBack(t);
+                case Ease.InElastic:
+                    return EaseInElastic(t);
+                case Ease.OutElastic:
+                    return EaseOutElastic(t);
+                case Ease.InOutElastic:
+                    return EaseInOutElastic(t);
+                case Ease.InBounce:
+                    return EaseInBounce(t);
+                case Ease.OutBounce:
+                    return EaseOutBounce(t);
+                case Ease.InOutBounce:
+                    return EaseInOutBounce(t);
+                default:
+                    return 0;
+            }
+
         }
 
         #region Sin
