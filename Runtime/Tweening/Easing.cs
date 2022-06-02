@@ -79,7 +79,7 @@ namespace Moein
         #endregion
 
         #region Cubic
-        
+
         private static float EaseInCubic(float t)
         {
             return t * t * t;
@@ -91,6 +91,23 @@ namespace Moein
         private static float EaseInOutCubic(float t)
         {
             return t < 0.5 ? 4 * t * t * t : 1 - Mathf.Pow(-2 * t + 2, 3) / 2;
+        }
+
+        #endregion
+
+        #region Quart
+
+        private static float EaseInQuart(float t)
+        {
+            return t * t * t * t;
+        }
+        private static float EaseOutQuart(float t)
+        {
+            return 1 - Mathf.Pow(1 - t, 4);
+        }
+        private static float EaseInOutQuart(float t)
+        {
+            return t < 0.5 ? 8 * t * t * t * t : 1 - Mathf.Pow(-2 * t + 2, 4) / 2;
         }
 
         #endregion
