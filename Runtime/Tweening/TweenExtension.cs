@@ -6,7 +6,6 @@ namespace Moein.Tweening
 {
     public static class TweenExtension
     {
-
         #region Position
 
         public static void DOPosition(this MonoBehaviour self, Transform target, Vector3 endValue, float duration,
@@ -173,6 +172,7 @@ namespace Moein.Tweening
         #endregion
 
         #region Sacle
+
         public static void DOSacle(this MonoBehaviour self, Transform target, Vector3 endValue, float duration, Ease ease, Action OnComplete = null)
         {
             self.StartCoroutine(DOScaleRoutine(target, endValue, duration, ease, OnComplete));
@@ -216,7 +216,5 @@ namespace Moein.Tweening
         }
 
         #endregion
-
-
     }
 }
