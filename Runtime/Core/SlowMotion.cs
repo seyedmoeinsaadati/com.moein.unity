@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using Moein.Trans.AutoMotion;
 using UnityEngine;
 
 namespace Moein.Core
