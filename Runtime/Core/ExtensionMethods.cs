@@ -53,34 +53,22 @@ namespace Moein.Core
             return new Vector2(self.y, self.z);
         }
 
-        public static Vector3 ToXZ(this Vector2 self, float yValue = 0)
+        public static Vector3 ToXZ(this Vector3 self, float yValue = 0)
         {
-            return new Vector3(self.x, yValue, self.y);
+            self.y = yValue;
+            return self;
         }
 
-        public static Vector3 ToXY(this Vector2 self, float zValue = 0)
+        public static Vector3 ToXY(this Vector3 self, float zValue = 0)
         {
-            return new Vector3(self.x, self.y, zValue);
+            self.z = zValue;
+            return self;
         }
 
-        public static Vector3 ToYZ(this Vector2 self, float xValue = 0)
+        public static Vector3 ToYZ(this Vector3 self, float xValue = 0)
         {
-            return new Vector3(xValue, self.x, self.y);
-        }
-
-        public static Vector3 To3XZ(this Vector3 self, float yValue = 0)
-        {
-            return new Vector3(self.x, yValue, self.z);
-        }
-
-        public static Vector3 To3XY(this Vector3 self, float zValue = 0)
-        {
-            return new Vector3(self.x, self.y, zValue);
-        }
-
-        public static Vector3 To3YZ(this Vector3 self, float xValue = 0)
-        {
-            return new Vector3(xValue, self.y, self.z);
+            self.x = xValue;
+            return self;
         }
 
         public static Vector2 Lerp(this Vector2 self, Vector2 target, Vector2 t)
@@ -387,7 +375,8 @@ namespace Moein.Core
             int r = (int) (self.r * 255);
             int g = (int) (self.g * 255);
             int b = (int) (self.b * 255);
-            return "#" + (alphaChannel ? a.ToString("X2") : "") + r.ToString("X2") + g.ToString("X2") + b.ToString("X2");
+            return "#" + (alphaChannel ? a.ToString("X2") : "") + r.ToString("X2") + g.ToString("X2") +
+                   b.ToString("X2");
         }
 
         #endregion

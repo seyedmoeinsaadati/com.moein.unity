@@ -182,17 +182,17 @@ namespace Moein.Path
             Event guiEvent = Event.current;
             if (guiEvent.shift)
             {
-                return position.To3XY(defValue.z);
+                return position.ToXY(defValue.z);
             }
 
             if (guiEvent.control)
             {
-                return position.To3XZ(defValue.y);
+                return position.ToXZ(defValue.y);
             }
 
             if (guiEvent.alt)
             {
-                return position.To3YZ(defValue.x);
+                return position.ToYZ(defValue.x);
             }
 
             return position;
