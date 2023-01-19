@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
+using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 
 namespace Moein.Core
@@ -20,6 +22,11 @@ namespace Moein.Core
             self.gameObject.SetActive(active);
         }
 
+        public static bool HasComponent<T>(this GameObject self) where T : MonoBehaviour
+        {
+            return self.GetComponent<T>() != null;
+        }
+
         #endregion
 
         #region Transform
@@ -32,6 +39,53 @@ namespace Moein.Core
             }
 
             return null;
+        }
+
+        public static Transform GetClosest(this Transform self, Transform[] objs, bool isLocal = false)
+        {
+            if (objs.Length == 0) throw new Exception("The list of transforms is empty");
+
+            var minDistance = Vector3.Distance(self.position, objs[0].position);
+
+            if (isLocal)
+            {
+                minDistance = Vector3.Distance(self.localPosition, objs[0].localPosition);
+            }
+
+            var closestTransform = objs[0];
+
+            for (var i = objs.Length - 1; i > 0; i--)
+            {
+                var newDistance = Vector3.Distance(self.position, objs[i].position);
+
+                if (isLocal)
+                {
+                    newDistance = Vector3.Distance(self.localPosition, objs[i].localPosition);
+                }
+
+                if (newDistance < minDistance)
+                {
+                    minDistance = newDistance;
+                    closestTransform = objs[i];
+                }
+            }
+
+            return closestTransform;
+        }
+
+        public static void ResetTransform(this Transform self)
+        {
+            self.localPosition = Vector3.zero;
+            self.localRotation = Quaternion.identity;
+            self.localScale = Vector3.one;
+        }
+
+        public static void DestroyChildren(this Transform self)
+        {
+            for (var i = self.childCount - 1; i >= 0; i--)
+            {
+                Object.Destroy(self.GetChild(i).gameObject);
+            }
         }
 
         #endregion
@@ -340,6 +394,15 @@ namespace Moein.Core
             self.y = isAdditive ? self.y + Random.Range(min.y, max.y) : Random.Range(min.y, max.y);
             self.z = isAdditive ? self.z + Random.Range(min.z, max.z) : Random.Range(min.z, max.z);
             return self;
+        }
+
+        #endregion
+
+        #region List
+
+        public static T GetRandomItem<T>(this IList<T> list)
+        {
+            return list[Random.Range(0, list.Count)];
         }
 
         public static void Shuffle<T>(this IList<T> list)
