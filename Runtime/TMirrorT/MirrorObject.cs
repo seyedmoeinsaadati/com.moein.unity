@@ -7,8 +7,8 @@ namespace Moein.Trans.Mirror
         public Transform target;
         public enum UpdateType // The available methods of updating are:
         {
-            FixedUpdate, // Update in FixedUpdate (for tracking rigidbodies).
-            LateUpdate, // Update in LateUpdate. (for tracking objects that are moved in Update)
+            FixedUpdate, // Update in FixedUpdate.
+            LateUpdate, // Update in LateUpdate.
             Update,
             ManualUpdate // user must call refresh method
         }
@@ -23,8 +23,7 @@ namespace Moein.Trans.Mirror
             }
         }
 
-        // Update is called once per frame
-        void Update()
+        private void Update()
         {
             if (updateType == UpdateType.Update)
             {

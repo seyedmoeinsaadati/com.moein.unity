@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Moein.Trans.Mirror
 {
-    public class AxisMirror : Axis, IMirror
+    public class AxisMirror : Axis, IMirrorTransform
     {
         public float factor = 1;
 

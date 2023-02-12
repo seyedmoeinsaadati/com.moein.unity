@@ -3,7 +3,7 @@ using Moein.Trans.Drawing;
 
 namespace Moein.Trans.Mirror
 {
-    public class PointMirror : Point, IMirror
+    public class PointMirror : Point, IMirrorTransform
     {
         [Header("Mirror Properties")]
         public float factor = 1f;

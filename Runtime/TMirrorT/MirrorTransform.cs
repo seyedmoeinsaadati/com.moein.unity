@@ -6,7 +6,7 @@ namespace Moein.Trans.Mirror
     {
         [Tooltip("IMirror Component is prerequisites")]
         public Transform mirror;
-        IMirror iMirror;
+        IMirrorTransform _iMirrorTransform;
 
         Quaternion newRotation;
         Vector3 newPosition, newScale;
@@ -14,8 +14,8 @@ namespace Moein.Trans.Mirror
         new void Start()
         {
             base.Start();
-            iMirror = mirror.GetComponent<IMirror>();
-            if (iMirror == null)
+            _iMirrorTransform = mirror.GetComponent<IMirrorTransform>();
+            if (_iMirrorTransform == null)
             {
                 Debug.LogError("IMirror is null. Add IMirror component to mirror object");
             }
@@ -23,14 +23,14 @@ namespace Moein.Trans.Mirror
 
         public override void Refresh()
         {
-            if (iMirror == null)
+            if (_iMirrorTransform == null)
             {
                 Debug.LogError("IMirror is null. Add IMirror component to mirror object");
                 return;
             }
-            newPosition = iMirror.GetMirrorPosition(target.position);
-            newRotation = iMirror.GetMirrorRotation(target.rotation);
-            newScale = iMirror.GetMirrorScale(target.localScale);
+            newPosition = _iMirrorTransform.GetMirrorPosition(target.position);
+            newRotation = _iMirrorTransform.GetMirrorRotation(target.rotation);
+            newScale = _iMirrorTransform.GetMirrorScale(target.localScale);
             transform.position = newPosition;
             transform.rotation = newRotation;
             transform.localScale = newScale;

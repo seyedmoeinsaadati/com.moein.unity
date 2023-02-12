@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Moein.Trans.Mirror
 {
-    public class PlaneMirror : Drawing.Plane, IMirror
+    public class PlaneMirror : Drawing.Plane, IMirrorTransform
     {
         public float factor = 1;
 
