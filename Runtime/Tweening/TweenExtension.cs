@@ -8,16 +8,16 @@ namespace Moein.Tweening
     {
         #region Position
 
-        public static void DOPosition(this MonoBehaviour self, Transform target, Vector3 endValue, float duration,
+        public static Coroutine DOPosition(this MonoBehaviour self, Transform target, Vector3 endValue, float duration,
             Ease ease, bool isLocal = true, Action OnComplete = null)
         {
-            self.StartCoroutine(DOPositionRoutine(target, endValue, duration, ease, isLocal, OnComplete));
+            return self.StartCoroutine(DOPositionRoutine(target, endValue, duration, ease, isLocal, OnComplete));
         }
 
-        public static void DOPosition(this MonoBehaviour self, Transform target, Vector3 endValue, float duration,
+        public static Coroutine DOPosition(this MonoBehaviour self, Transform target, Vector3 endValue, float duration,
             AnimationCurve ease, bool isLocal = true, Action OnComplete = null)
         {
-            self.StartCoroutine(DOPositionRoutine(target, endValue, duration, ease, isLocal, OnComplete));
+            return self.StartCoroutine(DOPositionRoutine(target, endValue, duration, ease, isLocal, OnComplete));
         }
 
         private static IEnumerator DOPositionRoutine(Transform target, Vector3 endValue, float duration,
@@ -89,16 +89,16 @@ namespace Moein.Tweening
 
         #region Rotation
 
-        public static void DORotation(this MonoBehaviour self, Transform target, Vector3 endValue, float duration,
+        public static Coroutine DORotation(this MonoBehaviour self, Transform target, Vector3 endValue, float duration,
             Ease ease, bool isLocal = true, Action OnComplete = null)
         {
-            self.StartCoroutine(DORotationRoutine(target, endValue, duration, ease, isLocal, OnComplete));
+            return self.StartCoroutine(DORotationRoutine(target, endValue, duration, ease, isLocal, OnComplete));
         }
 
-        public static void DORotation(this MonoBehaviour self, Transform target, Vector3 endValue, float duration,
+        public static Coroutine DORotation(this MonoBehaviour self, Transform target, Vector3 endValue, float duration,
             AnimationCurve ease, bool isLocal = true, Action OnComplete = null)
         {
-            self.StartCoroutine(DORotationRoutine(target, endValue, duration, ease, isLocal, OnComplete));
+            return self.StartCoroutine(DORotationRoutine(target, endValue, duration, ease, isLocal, OnComplete));
         }
 
         private static IEnumerator DORotationRoutine(Transform target, Vector3 endValue, float duration,
@@ -170,16 +170,16 @@ namespace Moein.Tweening
 
         #endregion
 
-        #region Sacle
+        #region Scale
 
-        public static void DOSacle(this MonoBehaviour self, Transform target, Vector3 endValue, float duration, Ease ease, Action OnComplete = null)
+        public static Coroutine DoScale(this MonoBehaviour self, Transform target, Vector3 endValue, float duration, Ease ease, Action OnComplete = null)
         {
-            self.StartCoroutine(DOScaleRoutine(target, endValue, duration, ease, OnComplete));
+            return self.StartCoroutine(DOScaleRoutine(target, endValue, duration, ease, OnComplete));
         }
 
-        public static void DOSacle(this MonoBehaviour self, Transform target, Vector3 endValue, float duration, AnimationCurve ease, Action OnComplete = null)
+        public static Coroutine DoScale(this MonoBehaviour self, Transform target, Vector3 endValue, float duration, AnimationCurve ease, Action OnComplete = null)
         {
-            self.StartCoroutine(DOScaleRoutine(target, endValue, duration, ease, OnComplete));
+            return self.StartCoroutine(DOScaleRoutine(target, endValue, duration, ease, OnComplete));
         }
 
         private static IEnumerator DOScaleRoutine(Transform target, Vector3 endValue, float duration, Ease ease, Action OnComplete = null)

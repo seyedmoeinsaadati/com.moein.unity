@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+
 namespace Moein.Tweening
 {
     public class AutoTween : MonoBehaviour
@@ -40,17 +41,17 @@ namespace Moein.Tweening
                     break;
                 case TweenType.Rotation:
                     this.DORotation(transform, targetValue, duration, ease, isLocal, () =>
-                        {
-                            isMotion = false;
-                            print("Rotation Tweening Compeleted.");
-                        });
+                    {
+                        isMotion = false;
+                        print("Rotation Tweening Compeleted.");
+                    });
                     break;
                 case TweenType.Scale:
-                    this.DOSacle(transform, targetValue, duration, ease, () =>
-                        {
-                            isMotion = false;
-                            print("Scale Tweening Compeleted.");
-                        });
+                    this.DoScale(transform, targetValue, duration, ease, () =>
+                    {
+                        isMotion = false;
+                        print("Scale Tweening Compeleted.");
+                    });
                     break;
             }
         }
