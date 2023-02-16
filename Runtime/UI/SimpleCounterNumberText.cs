@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace Moein.UI
 {
-    public class CountNumber : MonoBehaviour
+    public class SimpleCounterNumberText : MonoBehaviour
     {
         public Text target;
 

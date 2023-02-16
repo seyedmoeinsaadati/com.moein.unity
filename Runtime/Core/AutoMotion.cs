@@ -20,7 +20,6 @@ namespace Moein.Core
         [SerializeField] KeyCode StopActionKey = KeyCode.H;
         [SerializeField] KeyCode ReverseActionKey = KeyCode.F;
 
-        // Update is called once per frame
         private void Update()
         {
             if (Input.GetKeyUp(StartActionKey))
