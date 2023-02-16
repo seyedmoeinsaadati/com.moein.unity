@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Moein.Recorder
 {
-    public class Constants : MonoBehaviour
+    public static class Constants
     {
         public static string ASSETS_PATH = "Assets/Resources/";
         public static string MAIN_DIRECTORY = "ObjRecording/";
