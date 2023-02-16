@@ -5,51 +5,85 @@ namespace Moein.Core
 {
     public class SlowMotion : MonoBehaviour
     {
-        public float slowMotionFactor;
-
-        [Tooltip("after time(s) starts to back normal")]
-        public float slowMotionLenght;
-
-        [Tooltip("back to normal duration")] public float bulletTimeLenght;
+        private float slowMotionTimeScale = .1f;
+        private float slowMotionTime = .5f;
+        private float fadeInTime = .5f;
+        private float fadeOutTime = .5f;
 
         public KeyCode slowMotionKey = KeyCode.E;
 
-        public void DoSlowMotion()
-        {
-            Time.timeScale = slowMotionFactor;
-            Time.fixedDeltaTime = 0.02f * Time.timeScale;
-            Invoke("BackToNormal", slowMotionLenght * Time.timeScale);
-        }
+        private Coroutine coroutine;
 
-        public void BackToNormal()
-        {
-            StartCoroutine(BackToNormalCoroutine());
-        }
-
-        void Update()
+#if UNITY_EDITOR
+        private void Update()
         {
             if (Input.GetKeyDown(slowMotionKey))
             {
-                DoSlowMotion();
+                DoSlowMotion(slowMotionTimeScale, slowMotionTime, fadeInTime, fadeOutTime);
             }
         }
+#endif
 
-        private IEnumerator BackToNormalCoroutine()
+        public void DoSlowMotion()
         {
-            while (true)
+            if (coroutine != null) StopCoroutine(coroutine);
+            coroutine = StartCoroutine(SlowMotionRoutine());
+        }
+
+        private IEnumerator SlowMotionRoutine()
+        {
+            yield return ToTimeScale(slowMotionTimeScale, fadeInTime);
+            yield return new WaitForSecondsRealtime(slowMotionTime);
+            yield return ToTimeScale(1, fadeOutTime);
+        }
+
+        private IEnumerator ToTimeScale(float timeScaleTarget, float fadeTime)
+        {
+            float startScale = Time.timeScale;
+            float t = 0;
+
+            while (t < 1)
             {
-                Time.timeScale += (1.0f / bulletTimeLenght) * Time.unscaledDeltaTime;
+                t += (1.0f / fadeTime) * Time.unscaledDeltaTime;
+                Time.timeScale = Mathf.Lerp(startScale, timeScaleTarget, t);
                 Time.fixedDeltaTime = 0.02f * Time.timeScale;
-                // check state
-                if (Time.timeScale >= 1)
+                yield return null;
+            }
+
+            Time.timeScale = timeScaleTarget;
+            Time.fixedDeltaTime = 0.02f * timeScaleTarget;
+        }
+
+        //////////////////////////////////////////////////////
+        /// STATIC MEMBERS
+        //////////////////////////////////////////////////////
+        public static void DoSlowMotion(float timeScale, float slowMotionTime, float fadeInTime, float fadeOutTime)
+        {
+            Instance.slowMotionTimeScale = timeScale;
+            Instance.slowMotionTime = slowMotionTime;
+            Instance.fadeOutTime = fadeOutTime;
+            Instance.fadeInTime = fadeInTime;
+            Instance.DoSlowMotion();
+        }
+
+        // remove here if you do not need singletone SlowMotion
+        private static SlowMotion instance = null;
+
+        public static SlowMotion Instance
+        {
+            get
+            {
+                if (instance == null)
                 {
-                    // normal state
-                    Time.timeScale = 1;
-                    Time.fixedDeltaTime = 0.02f;
-                    break;
+                    instance = FindObjectOfType<SlowMotion>();
+                    if (instance == null)
+                    {
+                        instance = new GameObject().AddComponent<SlowMotion>();
+                        instance.gameObject.name = instance.GetType().Name;
+                    }
                 }
 
-                yield return null;
+                return instance;
             }
         }
     }
