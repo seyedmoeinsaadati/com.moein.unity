@@ -51,7 +51,7 @@ namespace Moein.Tweening
             }
 
             if (movingRoutine != null) StopCoroutine(movingRoutine);
-            movingRoutine = this.DOPosition(transform, endLocalPosition, duration, delay,ease, OnComplete: OnComplete);
+            movingRoutine = this.DOPosition(transform, endLocalPosition, duration, delay, ease, OnComplete: OnComplete);
 
             if (rotatingRoutine != null) StopCoroutine(rotatingRoutine);
             rotatingRoutine = this.DORotation(transform, endLocalRotation, duration, delay, ease);
@@ -144,7 +144,7 @@ namespace Moein.Tweening
 
         private static List<Tweener> all = new List<Tweener>();
 
-        public void ToEndByGroup(int groupId, bool reset = false)
+        public static void ToEndByGroup(int groupId, bool reset = false)
         {
             for (int i = 0; i < all.Count; i++)
             {
@@ -155,7 +155,7 @@ namespace Moein.Tweening
             }
         }
 
-        public void ToStartByGroup(int groupId, bool reset = false)
+        public static void ToStartByGroup(int groupId, bool reset = false)
         {
             for (int i = 0; i < all.Count; i++)
             {
@@ -173,6 +173,7 @@ namespace Moein.Tweening
 
     public class TweenerEditor : Editor
     {
+        private static int groupId;
         public Tweener tweenObject;
 
         public override void OnInspectorGUI()
@@ -194,9 +195,9 @@ namespace Moein.Tweening
             {
                 GUILayout.BeginHorizontal();
                 if (GUILayout.Button("To End"))
-                    tweenObject.ToEnd(true);
+                    tweenObject.ToEnd();
                 if (GUILayout.Button("To Start"))
-                    tweenObject.ToStart(true);
+                    tweenObject.ToStart();
                 GUILayout.EndHorizontal();
             }
 
@@ -213,6 +214,18 @@ namespace Moein.Tweening
                 tweenObject.endLocalPosition = EditorGUILayout.Vector3Field("End Local Position", tweenObject.endLocalPosition);
                 tweenObject.endLocalRotation = EditorGUILayout.Vector3Field("End Local Rotation", tweenObject.endLocalRotation);
                 tweenObject.endScale = EditorGUILayout.Vector3Field("End Scale", tweenObject.endScale);
+            }
+
+            if (Application.isPlaying)
+            {
+                EditorGUILayout.LabelField("Groups");
+                groupId = EditorGUILayout.IntField("Group Id", groupId);
+                GUILayout.BeginHorizontal();
+                if (GUILayout.Button($"To End ({groupId})"))
+                    Tweener.ToEndByGroup(groupId);
+                if (GUILayout.Button($"To Start ({groupId})"))
+                    Tweener.ToStartByGroup(groupId);
+                GUILayout.EndHorizontal();
             }
         }
 
@@ -236,8 +249,9 @@ namespace Moein.Tweening
 
         private void Toogle()
         {
-            foreach (Tweener item in targets)
+            foreach (var o in targets)
             {
+                var item = (Tweener)o;
                 item.Toggle();
             }
         }
