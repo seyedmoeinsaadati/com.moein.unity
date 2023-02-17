@@ -33,21 +33,21 @@ namespace Moein.Tweening
             switch (tweenType)
             {
                 case TweenType.Location:
-                    this.DOPosition(transform, targetValue, duration, ease, isLocal, () =>
+                    this.DOPosition(transform, targetValue, duration, 0, ease, isLocal, () =>
                     {
                         isMotion = false;
                         print("Position Tweening Compeleted.");
                     });
                     break;
                 case TweenType.Rotation:
-                    this.DORotation(transform, targetValue, duration, ease, isLocal, () =>
+                    this.DORotation(transform, targetValue, duration, 0, ease, isLocal, () =>
                     {
                         isMotion = false;
                         print("Rotation Tweening Compeleted.");
                     });
                     break;
                 case TweenType.Scale:
-                    this.DoScale(transform, targetValue, duration, ease, () =>
+                    this.DoScale(transform, targetValue, duration, 0, ease, () =>
                     {
                         isMotion = false;
                         print("Scale Tweening Compeleted.");
