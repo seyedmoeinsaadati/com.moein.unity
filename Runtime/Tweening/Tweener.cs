@@ -146,6 +146,15 @@ namespace Moein.Tweening
 
         public static void ToEndByGroup(int groupId, bool reset = false)
         {
+            if (groupId < 0)
+            {
+                for (int i = 0; i < all.Count; i++)
+                {
+                        all[i].ToEnd(reset);
+                }
+                return;
+            }
+
             for (int i = 0; i < all.Count; i++)
             {
                 if (all[i].groupId == groupId)
@@ -157,6 +166,15 @@ namespace Moein.Tweening
 
         public static void ToStartByGroup(int groupId, bool reset = false)
         {
+            if (groupId < 0)
+            {
+                for (int i = 0; i < all.Count; i++)
+                {
+                    all[i].ToStart(reset);
+                }
+                return;
+            }
+
             for (int i = 0; i < all.Count; i++)
             {
                 if (all[i].groupId == groupId)
