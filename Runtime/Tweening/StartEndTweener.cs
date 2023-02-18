@@ -8,7 +8,7 @@ using UnityEditor;
 
 namespace Moein.Tweening
 {
-    public class Tweener : MonoBehaviour
+    public class StartEndTweener : MonoBehaviour
     {
         [SerializeField] private bool autoStart;
         [SerializeField] private float duration = 2, delay;
@@ -148,7 +148,7 @@ namespace Moein.Tweening
         /// Static Members
         /////////////////////////////////
 
-        private static List<Tweener> all = new List<Tweener>();
+        private static List<StartEndTweener> all = new List<StartEndTweener>();
 
         public static void ToEndByGroup(int groupId, bool reset = false)
         {
@@ -193,16 +193,16 @@ namespace Moein.Tweening
     }
 
 #if UNITY_EDITOR
-    [CustomEditor(typeof(Tweener)), CanEditMultipleObjects]
+    [CustomEditor(typeof(StartEndTweener)), CanEditMultipleObjects]
 
     public class TweenerEditor : Editor
     {
         private static int groupId;
-        public Tweener tweenObject;
+        public StartEndTweener tweenObject;
 
         public override void OnInspectorGUI()
         {
-            tweenObject = target as Tweener;
+            tweenObject = target as StartEndTweener;
 
             base.OnInspectorGUI();
 
@@ -246,9 +246,9 @@ namespace Moein.Tweening
                 groupId = EditorGUILayout.IntField("Group Id", groupId);
                 GUILayout.BeginHorizontal();
                 if (GUILayout.Button($"To End ({groupId})"))
-                    Tweener.ToEndByGroup(groupId);
+                    StartEndTweener.ToEndByGroup(groupId);
                 if (GUILayout.Button($"To Start ({groupId})"))
-                    Tweener.ToStartByGroup(groupId);
+                    StartEndTweener.ToStartByGroup(groupId);
                 GUILayout.EndHorizontal();
             }
         }
@@ -257,7 +257,7 @@ namespace Moein.Tweening
         {
             foreach (var o in targets)
             {
-                var item = (Tweener)o;
+                var item = (StartEndTweener)o;
                 item.SetStartState();
             }
         }
@@ -266,7 +266,7 @@ namespace Moein.Tweening
         {
             foreach (var o in targets)
             {
-                var item = (Tweener)o;
+                var item = (StartEndTweener)o;
                 item.SetEndState();
             }
         }
@@ -275,7 +275,7 @@ namespace Moein.Tweening
         {
             foreach (var o in targets)
             {
-                var item = (Tweener)o;
+                var item = (StartEndTweener)o;
                 item.Toggle();
             }
         }
