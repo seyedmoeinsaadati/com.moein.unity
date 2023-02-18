@@ -104,6 +104,12 @@ namespace Moein.Tweening
 
         #region Editor Functions
 
+        private void Reset()
+        {
+            SetStartState();
+            SetEndState();
+        }
+
         internal void SetStartState()
         {
             startLocalPosition = transform.localPosition;
