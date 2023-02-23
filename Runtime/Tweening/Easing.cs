@@ -2,6 +2,16 @@
 
 namespace Moein.Tweening
 {
+    public enum LoopType
+    {
+        Once, Yoyo, Loop
+    }
+
+    public enum Direction
+    {
+        Forward, Backward
+    }
+
     public enum Ease
     {
         Linear,
