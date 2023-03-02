@@ -442,6 +442,15 @@ namespace Moein.Core
                    b.ToString("X2");
         }
 
+        public static Color ToGrayscale(this Color self)
+        {
+            // grayscale = 0.299r + 0.587g + 0.114b.
+            self.r *= .299f;
+            self.g *= .587f;
+            self.b *= .114f;
+            return self;
+        }
+
         #endregion
     }
 }
