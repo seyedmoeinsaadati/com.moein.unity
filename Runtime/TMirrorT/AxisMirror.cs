@@ -1,7 +1,7 @@
 ﻿using Moein.Trans.Drawing;
 using UnityEngine;
 
-namespace Moein.Trans.Mirror
+namespace Moein.Mirror
 {
     public class AxisMirror : Axis, IMirrorTransform
     {

@@ -1,8 +1,9 @@
 using UnityEngine;
+using Plane = Moein.Trans.Drawing.Plane;
 
-namespace Moein.Trans.Mirror
+namespace Moein.Mirror
 {
-    public class PlaneMirror : Drawing.Plane, IMirrorTransform
+    public class PlaneMirror : Plane, IMirrorTransform
     {
         public float factor = 1;
 

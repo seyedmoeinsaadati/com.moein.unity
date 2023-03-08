@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Moein.Trans.Mirror
+namespace Moein.Mirror
 {
     public abstract class MirrorObject : MonoBehaviour
     {

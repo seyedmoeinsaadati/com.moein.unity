@@ -1,18 +1,17 @@
 ﻿using UnityEngine;
 using Moein.Trans.Drawing;
 
-namespace Moein.Trans.Mirror
+namespace Moein.Mirror
 {
     public class PointMirror : Point, IMirrorTransform
     {
-        [Header("Mirror Properties")]
-        public float factor = 1f;
+        [Header("Mirror Properties")] public float factor = 1f;
 
         [Tooltip("Lock axis with set 0 for locking axis. Use only 0 or 1 value for this feild.")]
         public Vector3 beAxis = Vector3.one;
 
         [Tooltip("Custom your mirror behaviour by changing mirror rotation axes")]
-        public Vector4 customRotaionQuaternion = Vector4.one;
+        public Vector4 customRotationQuaternion = Vector4.one;
 
         public Vector3 GetMirrorPosition(Vector3 target)
         {
@@ -24,9 +23,9 @@ namespace Moein.Trans.Mirror
 
         public Quaternion GetMirrorRotation(Quaternion target)
         {
-            return new Quaternion(target.x * customRotaionQuaternion.x,
-                                    target.y * customRotaionQuaternion.y,
-                                    target.z * customRotaionQuaternion.z, target.w * customRotaionQuaternion.w);
+            return new Quaternion(target.x * customRotationQuaternion.x,
+                target.y * customRotationQuaternion.y,
+                target.z * customRotationQuaternion.z, target.w * customRotationQuaternion.w);
         }
 
         public Vector3 GetMirrorScale(Vector3 target)
