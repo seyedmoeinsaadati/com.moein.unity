@@ -172,7 +172,7 @@ namespace Moein.Tweening
             transform.localScale = state.scale;
         }
 
-        #region Editor Functions
+#if UNITY_EDITOR
         void OnDrawGizmos()
         {
             if (drawGizmos)
@@ -212,11 +212,9 @@ namespace Moein.Tweening
         private void DrawPoint(int index)
         {
             Gizmos.DrawWireMesh(editorMesh, states[index].worldPos, Quaternion.Euler(states[index].localEulerAngle), states[index].scale);
-#if UNITY_EDITOR
             Handles.Label(states[index].worldPos, index.ToString());
-#endif
         }
-        #endregion
+#endif
 
         /////////////////////////////////
         /// Static Members
