@@ -110,7 +110,7 @@ namespace Moein.Physics
 
 
 #if UNITY_EDITOR
-    [CustomEditor(typeof(Grenade), true)]
+    [CustomEditor(typeof(Grenade), true), CanEditMultipleObjects]
     public class GrenadeEditor : Editor
     {
         public Grenade grenade;
