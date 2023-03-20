@@ -2,7 +2,7 @@
 
 namespace Moein.Core
 {
-    public class Bezier : MonoBehaviour
+    public static class Bezier
     {
         public static float Lerp(float a, float b, float t)
         {

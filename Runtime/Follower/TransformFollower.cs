@@ -21,7 +21,6 @@ namespace Moein.Trans.Follower
             {
                 SetOffset();
             }
-
         }
         void Update()
         {

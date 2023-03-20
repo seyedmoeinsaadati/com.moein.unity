@@ -7,7 +7,6 @@ namespace Moein.Physics
     {
         public GrenadeType activeType;
         public DetectArea detectArea;
-
         [Tooltip("Destroy object after exploding")]
         public bool destroySelf;
         public bool extraPoint;
@@ -90,6 +89,7 @@ namespace Moein.Physics
         void OnDrawGizmos()
         {
             Gizmos.color = Color.red;
+
             switch (detectArea)
             {
                 case DetectArea.Sphere:
