@@ -19,6 +19,8 @@ namespace Moein.Physics
 
         float countdown;
         // Use this for initialization
+
+        public LayerMask layers;
         void Start()
         {
             countdown = delay;
@@ -59,10 +61,10 @@ namespace Moein.Physics
             switch (detectArea)
             {
                 case DetectArea.Sphere:
-                    overC = UnityEngine.Physics.OverlapSphere(transform.position, radius);
+                    overC = UnityEngine.Physics.OverlapSphere(transform.position, radius, layers);
                     break;
                 case DetectArea.Cube:
-                    overC = UnityEngine.Physics.OverlapBox(transform.position, Vector3.one * radius / 2);
+                    overC = UnityEngine.Physics.OverlapBox(transform.position, Vector3.one * radius / 2, Quaternion.identity, layers);
                     Debug.Log(overC.Length);
                     break;
                 default:
