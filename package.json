@@ -1,14 +1,14 @@
 {
   "name": "com.moein.unity",
   "displayName": "Moein",
-  "version": "1.9.80",
+  "version": "1.9.90",
   "unity": "2019.1",
   "author": {
     "name": "Moein Saadati",
     "email": "saadatimoin@gmail.com",
     "url": "https://seyedmoeinsaadati.github.io/"
   },
-  "description": "Some useful Packages Provided to the community for Unity Projects:\n- Core\n- Logger\n- Randomize\n- TMirrorT\n- 3D Path Editor\n- Recorder\n- Follower\n- AutoMotion (Coming soon)",
+  "description": "Some useful Packages Provided to the community for Unity Projects:\n- Core\n- Logger\n- Randomize\n- TMirrorT\n- 3D Path Editor\n- Recorder\n- Follower\n- Twenning",
   "keywords": [
     "Moein",
     "TMirrorT",

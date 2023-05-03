@@ -13,13 +13,13 @@ Some useful tools provided to the community for Unity Projects:
 - 3D Path Editor
 - Object Recorder
 - Follower
-- AutoMotion (Coming soon)
+- Tweening
 
 ## How To Use ?
 
 1. Open Unity package manager
 2. Click on plus button
-3. Select "Add package from git URL" and enter repo URL.
+3. Select "Add package from git URL" and enter "https://github.com/seyedmoeinsaadati/com.moein.unity".
 
 ​	
 
