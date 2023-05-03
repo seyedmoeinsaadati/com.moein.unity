@@ -10,7 +10,6 @@ namespace Moein.Mirror
         public Vector3 GetMirrorPosition(Vector3 target)
         {
             float distance = factor;
-
             switch (axisType)
             {
                 case AxisType.X:

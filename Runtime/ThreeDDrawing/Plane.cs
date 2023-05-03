@@ -4,15 +4,6 @@ namespace Moein.Trans.Drawing
 {
     public class Plane : ThreeDDrawing
     {
-        public enum PlaneType
-        {
-            XY,
-            XZ,
-            ZY
-        }
-
-        [SerializeField] protected PlaneType planeType;
-
         Vector3[] p;
 
         protected override void OnDrawGizmos()
@@ -30,29 +21,10 @@ namespace Moein.Trans.Drawing
         {
             p = new Vector3[4];
             Vector3 pos = transform.position;
-            switch (planeType)
-            {
-                case PlaneType.XY:
-                    p[0] = new Vector3(-length, length, 0) + pos;
-                    p[1] = new Vector3(length, length, 0) + pos;
-                    p[2] = new Vector3(-length, -length, 0) + pos;
-                    p[3] = new Vector3(length, -length, 0) + pos;
-                    break;
-                case PlaneType.XZ:
-                    p[0] = new Vector3(-length, 0, length) + pos;
-                    p[1] = new Vector3(length, 0, length) + pos;
-                    p[2] = new Vector3(-length, 0, -length) + pos;
-                    p[3] = new Vector3(length, 0, -length) + pos;
-                    break;
-                case PlaneType.ZY:
-                    p[0] = new Vector3(0, -length, length) + pos;
-                    p[1] = new Vector3(0, length, length) + pos;
-                    p[2] = new Vector3(0, -length, -length) + pos;
-                    p[3] = new Vector3(0, length, -length) + pos;
-                    break;
-                default:
-                    break;
-            }
+            p[0] = pos + (transform.up - transform.right) * length;
+            p[1] = pos + (transform.up + transform.right) * length;
+            p[2] = pos + (-transform.up - transform.right) * length;
+            p[3] = pos + (-transform.up + transform.right) * length;
         }
 
         private void DrawLines()
@@ -65,24 +37,7 @@ namespace Moein.Trans.Drawing
 
         private void DrawPlane()
         {
-            Quaternion m_rotation;
-            switch (planeType)
-            {
-                case PlaneType.XY:
-                    m_rotation = Quaternion.LookRotation(Vector3.forward);
-                    break;
-                case PlaneType.XZ:
-                    m_rotation = Quaternion.LookRotation(Vector3.up);
-                    break;
-                case PlaneType.ZY:
-                    m_rotation = Quaternion.LookRotation(Vector3.right);
-                    break;
-                default:
-                    m_rotation = Quaternion.identity;
-                    break;
-            }
-
-            Matrix4x4 trs = Matrix4x4.TRS(transform.position, m_rotation, Vector3.one);
+            Matrix4x4 trs = Matrix4x4.TRS(transform.position, transform.rotation, Vector3.one);
             Gizmos.matrix = trs;
             Color32 m_color = color;
             m_color.a = 48;
