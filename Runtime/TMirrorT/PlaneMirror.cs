@@ -1,60 +1,43 @@
 using UnityEngine;
 using Plane = Moein.Trans.Drawing.Plane;
+using UnityPlane = UnityEngine.Plane;
 
 namespace Moein.Mirror
 {
     public class PlaneMirror : Plane, IMirrorTransform
     {
-        public float factor = 1;
+        private UnityPlane mirrorPlane;
+        private Vector3 closestPoint;
+        private Vector3 targetPos;
+        private float distanceToMirror;
 
         public Vector3 GetMirrorPosition(Vector3 target)
         {
-            float distance = factor;
-            switch (planeType)
-            {
-                case PlaneType.XY:
-                    distance *= target.z - transform.position.z;
-                    return new Vector3(target.x, target.y, transform.position.z - distance);
-                case PlaneType.XZ:
-                    distance *= target.y - transform.position.y;
-                    return new Vector3(target.x, transform.position.y - distance, target.z);
-                case PlaneType.ZY:
-                    distance *= target.x - transform.position.x;
-                    return new Vector3(transform.position.x - distance, target.y, target.z);
-                default:
-                    return Vector3.zero;
-            }
+            targetPos = target;
+            UpdatePlane();
 
+            //Update the transform:
+            closestPoint = mirrorPlane.ClosestPointOnPlane(targetPos);
+            distanceToMirror = mirrorPlane.GetDistanceToPoint(targetPos);
+            return closestPoint - mirrorPlane.normal * distanceToMirror;
         }
 
         public Quaternion GetMirrorRotation(Quaternion target)
         {
-            switch (planeType)
-            {
-                case PlaneType.XY:
-                    return new Quaternion(target.x, target.y, -target.z, -target.w);
-                case PlaneType.XZ:
-                    return new Quaternion(target.x, -target.y, target.z, -target.w);
-                case PlaneType.ZY:
-                    return new Quaternion(-target.x, target.y, target.z, -target.w);
-                default:
-                    return Quaternion.identity;
-            }
+            UpdatePlane();
+            return Quaternion.LookRotation(Vector3.Reflect(target * Vector3.forward, mirrorPlane.normal),
+                Vector3.Reflect(target * Vector3.up, mirrorPlane.normal));
         }
 
         public Vector3 GetMirrorScale(Vector3 target)
         {
-            switch (planeType)
-            {
-                case PlaneType.XY:
-                    return new Vector3(target.x, target.y, -target.z);
-                case PlaneType.XZ:
-                    return new Vector3(target.x, -target.y, target.z);
-                case PlaneType.ZY:
-                    return new Vector3(-target.x, target.y, target.z);
-                default:
-                    return target;
-            }
+            return new Vector3(transform.localScale.x * -1,
+                transform.localScale.y, transform.localScale.z);
+        }
+
+        private void UpdatePlane()
+        {
+            mirrorPlane = new UnityPlane(transform.forward, transform.position);
         }
     }
 }
