@@ -5,6 +5,7 @@ namespace Moein.Path
     [System.Serializable]
     public class Point
     {
+        public float distance;
         public Vector3 position;
         private Vector3 forward;
         public Vector3 upward;
@@ -19,7 +20,7 @@ namespace Moein.Path
         {
             this.position = position;
             this.forward = forward * .05f;
-            this.upward = upward * .05f;
+            this.upward = upward;
         }
 
         public Point(Vector3 position, Vector3 upward)

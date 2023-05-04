@@ -12,11 +12,10 @@ namespace Moein.Path
     public class Path : MonoBehaviour
     {
         [HideInInspector] public ControlPoint[] anchorPoints;
-        [HideInInspector] public List<Point> points;
+        internal List<Point> points;
         [HideInInspector] public float totalLength;
 
         [Header("Path Properties:")] [Min(1)] public int resolution = 64;
-        [SerializeField] private float power = 1;
         [SerializeField] private bool isClose;
         public bool autoSetControlPoints = true;
         [Header("Visual")] public bool controlPreview = true;
@@ -94,7 +93,7 @@ namespace Moein.Path
                 Gizmos.color = PathConfig.forwardAxisColor;
                 Gizmos.DrawLine(points[i].position, points[i].Forward + points[i].position);
                 Gizmos.color = PathConfig.upAxisColor;
-                Gizmos.DrawLine(points[i].position, points[i].upward + points[i].position);
+                Gizmos.DrawLine(points[i].position, points[i].upward * .1f + points[i].position);
             }
         }
 
@@ -120,7 +119,14 @@ namespace Moein.Path
             }
 
             points = new List<Point>
-                {new Point(anchorPoints[0].position, anchorPoints[0].transform.forward, anchorPoints[0].transform.up)};
+            {
+                new Point(anchorPoints[0].position, anchorPoints[0].transform.up)
+                {
+                    distance = 0,
+                    Forward = anchorPoints[0].transform.forward
+                }
+            };
+
             totalLength = 0;
 
             Vector3 previousPoint = points[0].position;
@@ -130,15 +136,18 @@ namespace Moein.Path
                 while (t < 1)
                 {
                     t += 1f / resolution;
-                    var position = Bezier.CubicCurve(anchorPoints[i].position, anchorPoints[i].EndTangent * power,
-                        anchorPoints[i + 1].StartTangent * power, anchorPoints[i + 1].position, t);
+                    var position = Bezier.CubicCurve(anchorPoints[i].position, anchorPoints[i].EndTangent,
+                        anchorPoints[i + 1].StartTangent, anchorPoints[i + 1].position, t);
                     totalLength += Vector3.Distance(previousPoint, position);
 
                     var upward = Bezier.Lerp(anchorPoints[i].transform.up, anchorPoints[i + 1].transform.up, t);
                     var forward = (position - previousPoint).normalized;
                     points[points.Count - 1].Forward = forward;
 
-                    Point point = new Point(position, upward);
+                    Point point = new Point(position, upward)
+                    {
+                        distance = totalLength
+                    };
                     points.Add(point);
 
                     previousPoint = position;
@@ -153,8 +162,8 @@ namespace Moein.Path
                     t += 1f / resolution;
 
                     var pointOnCurve = Bezier.CubicCurve(anchorPoints[anchorPoints.Length - 1].position,
-                        anchorPoints[anchorPoints.Length - 1].EndTangent * power,
-                        anchorPoints[0].StartTangent * power, anchorPoints[0].position, t);
+                        anchorPoints[anchorPoints.Length - 1].EndTangent,
+                        anchorPoints[0].StartTangent, anchorPoints[0].position, t);
 
                     totalLength += Vector3.Distance(previousPoint, pointOnCurve);
 
@@ -183,18 +192,44 @@ namespace Moein.Path
 
         public Point GetPoint(float distance)
         {
-            float dst = 0;
-            distance %= totalLength;
+            if (points.Count < 2) return points[0];
+            var nearestPointIndex = 0;
             for (int i = 0; i < points.Count; i++)
             {
-                dst += Vector3.Distance(points[i].position, points[i + 1].position);
-                if (dst > distance)
+                if (points[i].distance > distance)
                 {
-                    return points[i];
+                    nearestPointIndex = i;
+                    break;
                 }
             }
 
-            return null;
+            Point currPoint, nextPoint;
+            if (isClose && nearestPointIndex == 0)
+            {
+                currPoint = points[points.Count - 1];
+                nextPoint = points[0];
+            }
+            else if (isClose && nearestPointIndex == points.Count - 1)
+            {
+                currPoint = points[points.Count - 2];
+                nextPoint = points[points.Count - 1];
+            }
+            else
+            {
+                currPoint = points[nearestPointIndex - 1];
+                nextPoint = points[nearestPointIndex];
+            }
+            
+            var localDistance = distance - currPoint.distance;
+            var deltaDistance = nextPoint.distance - currPoint.distance;
+
+            var t = localDistance / deltaDistance;
+            return new Point(Vector3.Lerp(currPoint.position, nextPoint.position, t))
+            {
+                distance = distance,
+                Forward = Vector3.Slerp(currPoint.Forward, nextPoint.Forward, t),
+                upward = Vector3.Slerp(currPoint.upward, nextPoint.upward, t),
+            };
         }
 
         public Point GetNearestPoint(Vector3 position)
@@ -228,15 +263,7 @@ namespace Moein.Path
 
         public Point this[int i]
         {
-            get
-            {
-                if (points.Count > 0)
-                {
-                    return points[i];
-                }
-
-                return null;
-            }
+            get { return points.Count > 0 ? points[i] : null; }
         }
     }
 
