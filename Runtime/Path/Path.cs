@@ -91,9 +91,9 @@ namespace Moein.Path
                 Gizmos.color = PathConfig.pathColor;
                 Gizmos.DrawLine(points[i].position, points[i + 1].position);
 
-                Gizmos.color = PathConfig.zAxis;
+                Gizmos.color = PathConfig.forwardAxisColor;
                 Gizmos.DrawLine(points[i].position, points[i].Forward + points[i].position);
-                Gizmos.color = PathConfig.yAxis;
+                Gizmos.color = PathConfig.upAxisColor;
                 Gizmos.DrawLine(points[i].position, points[i].upward + points[i].position);
             }
         }
