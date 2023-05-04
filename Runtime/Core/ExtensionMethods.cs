@@ -364,18 +364,18 @@ namespace Moein.Core
 
         #region Math
 
-        public static float ChangeRange(this float value, float firstRangeMin, float firstRangeMax,
-            float secondRangeMin, float secondRangeMax)
+        public static float ChangeRange(this float value, float firstMin, float firstMax,
+            float secondMin, float secondMax)
         {
-            return (value - firstRangeMin) *
-                Mathf.Abs((secondRangeMax - secondRangeMin) / (firstRangeMax - firstRangeMin)) + secondRangeMin;
+            return (value - firstMin) *
+                Mathf.Abs((secondMax - secondMin) / (firstMax - firstMin)) + secondMin;
         }
 
-        public static float Remap(this float value, float firstRangeMin, float firstRangeMax,
-            float secondRangeMin, float secondRangeMax)
+        public static float Remap(this float value, float firstMin, float firstMax,
+            float secondMin, float secondMax)
         {
-            float t = Mathf.InverseLerp(firstRangeMin, firstRangeMax, value);
-            return Mathf.Lerp(secondRangeMin, secondRangeMax, t);
+            float t = Mathf.InverseLerp(firstMin, firstMax, value);
+            return Mathf.Lerp(secondMin, secondMax, t);
         }
 
         #endregion
@@ -429,7 +429,7 @@ namespace Moein.Core
 
         public static bool Contains(this LayerMask self, int layer)
         {
-            return ((int)Mathf.Pow(2, layer) & self) != 0;
+            return ((int) Mathf.Pow(2, layer) & self) != 0;
         }
 
         #endregion
@@ -441,10 +441,10 @@ namespace Moein.Core
         /// </summary>
         public static string ColorToHex(this Color self, bool alphaChannel = false)
         {
-            int a = (int)(self.a * 255);
-            int r = (int)(self.r * 255);
-            int g = (int)(self.g * 255);
-            int b = (int)(self.b * 255);
+            int a = (int) (self.a * 255);
+            int r = (int) (self.r * 255);
+            int g = (int) (self.g * 255);
+            int b = (int) (self.b * 255);
             return "#" + (alphaChannel ? a.ToString("X2") : "") + r.ToString("X2") + g.ToString("X2") +
                    b.ToString("X2");
         }
