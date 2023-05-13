@@ -421,6 +421,49 @@ namespace Moein.Core
             }
         }
 
+        public static int[] GetRandomlyIndexes(int count, int[] weights)
+        {
+            int[] visited = new int[weights.Length];
+
+            for (int i = 0; i < visited.Length; i++)
+                visited[i] = 1;
+
+            int[] result = new int[count];
+            int[] indexes = new int[weights.Length];
+            int randomValue, candidateIndex;
+
+            for (int i = 0; i < count; i++)
+            {
+                if (i > 0 && i % weights.Length == 0)
+                {
+                    for (int j = 0; j < visited.Length; j++)
+                        visited[j] = 1;
+                }
+
+                indexes[0] = weights[0] * visited[0];
+                for (int j = 1; j < weights.Length; j++)
+                {
+                    indexes[j] = indexes[j - 1] + (weights[j] * visited[j]);
+                }
+
+                randomValue = Random.Range(1, indexes[indexes.Length - 1]);
+                candidateIndex = 0;
+                for (int j = 0; j < indexes.Length; j++)
+                {
+                    if (randomValue <= indexes[j])
+                    {
+                        candidateIndex = j;
+                        break;
+                    }
+                }
+
+                result[i] = candidateIndex;
+                visited[candidateIndex] = 0;
+            }
+
+            return result;
+        }
+
         #endregion
 
         #region Layer
