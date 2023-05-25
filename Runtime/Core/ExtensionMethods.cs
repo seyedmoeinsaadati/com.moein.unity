@@ -217,6 +217,7 @@ namespace Moein.Core
         /// <summary>
         /// Spiral translation around a position (offset) in XZ plane
         /// </summary>
+        /// <param name="self"></param>
         /// <param name="offset">point</param>
         /// <param name="rotationSpeed">rotation speed</param>
         /// <param name="forwardSpeed">distance between actor and point</param>
@@ -232,6 +233,7 @@ namespace Moein.Core
         /// <summary>
         /// Spiral translation around a position (offset) in YZ plane
         /// </summary>
+        /// <param name="self"></param>
         /// <param name="offset">point</param>
         /// <param name="rotationSpeed">rotation speed</param>
         /// <param name="forwardSpeed">distance between actor and point</param>
@@ -247,6 +249,7 @@ namespace Moein.Core
         /// <summary>
         /// Spiral translation around a position (offset) in XY plane
         /// </summary>
+        /// <param name="self"></param>
         /// <param name="offset">point</param>
         /// <param name="rotationSpeed">rotation speed</param>
         /// <param name="forwardSpeed">distance between actor and point</param>
@@ -292,6 +295,7 @@ namespace Moein.Core
         /// <summary>
         /// Clamp rotation angles
         /// </summary>
+        /// <param name="self"></param>
         /// <param name="min">minimum angles</param>
         /// <param name="max">maximum angles</param>
         public static Quaternion ClampRotation(this Quaternion self, Vector3 min, Vector3 max)
