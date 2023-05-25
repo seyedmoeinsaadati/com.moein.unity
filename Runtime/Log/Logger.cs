@@ -6,13 +6,12 @@ using Moein.Core;
 
 namespace Moein.Log
 {
-    public class Logger : Singleton<Logger>
+    public class Logger : MonoBehaviour
     {
         static Text content;
         static string str_content;
 
-        [SerializeField]
-        KeyCode activeKey = KeyCode.Tab;
+        [SerializeField] KeyCode activeKey = KeyCode.Tab;
 
         public bool active = false;
         public int fontSize = 20;
@@ -110,12 +109,33 @@ namespace Moein.Log
                 onCollect();
             }
         }
+
+        private static Logger instance = null;
+
+        public static Logger Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = FindObjectOfType<Logger>();
+                    if (instance == null)
+                    {
+                        instance = new GameObject().AddComponent<Logger>();
+                        instance.gameObject.name = instance.GetType().Name;
+                    }
+                }
+
+                return instance;
+            }
+        }
     }
 }
 
 public class UILogStyle
 {
     Color textColor;
+
     public UILogStyle(Color textColor)
     {
         this.textColor = textColor;

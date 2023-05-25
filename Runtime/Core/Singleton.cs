@@ -3,37 +3,44 @@
 
 namespace Moein.Core
 {
-    public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
+    public class SingletonT : MonoBehaviour
     {
-        private static T _instance;
+        // remove here if you do not need singletone SlowMotion
+        private static SingletonT instance = null;
 
-        [SerializeField] private bool dontDestroyManagerOnLoad = false;
-
-        public static T Instance
+        public static SingletonT Instance
         {
-            get { return _instance; }
+            get
+            {
+                if (instance == null)
+                {
+                    instance = FindObjectOfType<SingletonT>();
+                    if (instance == null)
+                    {
+                        instance = new GameObject().AddComponent<SingletonT>();
+                        instance.gameObject.name = instance.GetType().Name;
+                    }
+                }
+
+                return instance;
+            }
         }
 
-        private void Awake()
-        {
-            if (this.dontDestroyManagerOnLoad)
-            {
-                GameObject.DontDestroyOnLoad(this.gameObject);
-            }
 
-            if (_instance != null && _instance != this)
-            {
-                Destroy(this.gameObject);
-            }
-            else
-            {
-                _instance = this as T;
-            }
-        }
+        [SerializeField] private bool dontDestroyManagerOnLoad;
 
         public bool DontDestroyManagerOnLoad
         {
-            get { return this.dontDestroyManagerOnLoad; }
+            get => dontDestroyManagerOnLoad;
+            set
+            {
+                if (value)
+                {
+                    DontDestroyOnLoad(Instance.gameObject);
+                }
+
+                dontDestroyManagerOnLoad = value;
+            }
         }
     }
 }
