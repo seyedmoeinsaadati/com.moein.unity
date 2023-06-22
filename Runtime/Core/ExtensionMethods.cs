@@ -158,6 +158,25 @@ namespace Moein.Core
         }
 
         /// <summary>
+        /// Rotate 2D point
+        /// </summary>
+        /// <param name="vector"></param>
+        /// <param name="angle"></param>
+        /// <param name="clockwise"></param>
+        /// <returns></returns>
+        public static Vector2 Rotate(this Vector2 vector, float angle, bool clockwise) //angle in radians
+        {
+            if (clockwise)
+            {
+                angle = 2 * Mathf.PI - angle;
+            }
+
+            float xVal = vector.x * Mathf.Cos(angle) - vector.y * Mathf.Sin(angle);
+            float yVal = vector.x * Mathf.Sin(angle) + vector.y * Mathf.Cos(angle);
+            return new Vector2(xVal, yVal);
+        }
+
+        /// <summary>
         /// Rotate 2D point (XY)
         /// </summary>
         /// <param name="vector"></param>
