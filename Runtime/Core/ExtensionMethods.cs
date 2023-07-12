@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 
@@ -84,6 +85,17 @@ namespace Moein.Core
         {
             while (self.childCount > 0)
                 Object.DestroyImmediate(self.GetChild(0).gameObject);
+        }
+
+        #endregion
+
+        #region RectTransform
+        public static Vector2 ConvertWorldPosToRectPos(this Vector3 worldPos, RectTransform rectTransform)
+        {
+            if (Camera.main == null) return Vector2.zero;
+            var screenPos = Camera.main.WorldToScreenPoint(worldPos);
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform, screenPos, null, out Vector2 localPoint);
+            return localPoint;
         }
 
         #endregion
@@ -493,7 +505,7 @@ namespace Moein.Core
 
         public static bool Contains(this LayerMask self, int layer)
         {
-            return ((int) Mathf.Pow(2, layer) & self) != 0;
+            return ((int)Mathf.Pow(2, layer) & self) != 0;
         }
 
         #endregion
@@ -505,10 +517,10 @@ namespace Moein.Core
         /// </summary>
         public static string ColorToHex(this Color self, bool alphaChannel = false)
         {
-            int a = (int) (self.a * 255);
-            int r = (int) (self.r * 255);
-            int g = (int) (self.g * 255);
-            int b = (int) (self.b * 255);
+            int a = (int)(self.a * 255);
+            int r = (int)(self.r * 255);
+            int g = (int)(self.g * 255);
+            int b = (int)(self.b * 255);
             return "#" + (alphaChannel ? a.ToString("X2") : "") + r.ToString("X2") + g.ToString("X2") +
                    b.ToString("X2");
         }
@@ -523,5 +535,41 @@ namespace Moein.Core
         }
 
         #endregion
+
+        #region UI
+
+        public static Button SetFormattedText(this Button self, params object[] args)
+        {
+            if (self == null) return null;
+
+            var view = self.GetComponentInChildren<Text>();
+            if (view != null)
+            {
+                view.text = string.Format(view.text, args);
+                return self;
+            }
+
+            return self;
+        }
+
+        #endregion
+
+        #region Texture
+
+        public static Texture2D DrawCircle(this Texture2D tex, Color color, int x, int y, int radius = 3)
+        {
+            float rSquared = radius * radius;
+
+            for (int u = x - radius; u < x + radius + 1; u++)
+                for (int v = y - radius; v < y + radius + 1; v++)
+                    if ((x - u) * (x - u) + (y - v) * (y - v) < rSquared)
+                        tex.SetPixel(u, v, color);
+
+            return tex;
+        }
+
+        #endregion
+
+
     }
 }
