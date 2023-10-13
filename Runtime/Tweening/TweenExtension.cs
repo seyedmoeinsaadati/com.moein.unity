@@ -217,7 +217,7 @@ namespace Moein.Tweening
             {
                 epsilon += Time.deltaTime;
                 float t = epsilon / duration;
-                target.localScale = Vector3.Slerp(startValue, endValue, ease.Evaluate(t));
+                target.localScale = Vector3.Lerp(startValue, endValue, ease.Evaluate(t));
                 yield return null;
             }
 
@@ -239,7 +239,7 @@ namespace Moein.Tweening
             {
                 epsilon += Time.deltaTime;
                 float t = epsilon / duration;
-                target.localScale = Vector3.Slerp(startValue, endValue, ease.Evaluate(t));
+                target.localScale = Vector3.Lerp(startValue, endValue, ease.Evaluate(t));
                 yield return null;
             }
 
