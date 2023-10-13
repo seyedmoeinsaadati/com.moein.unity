@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Moein.Tweening
 {
@@ -247,6 +248,188 @@ namespace Moein.Tweening
             OnComplete?.Invoke();
         }
 
+        #endregion
+
+        #region Value
+
+        public static Coroutine ToValue(this MonoBehaviour self, float target, float endValue, float duration, float delay,
+          Ease ease, Action OnComplete = null)
+        {
+            return self.StartCoroutine(ToValueRoutine(target, endValue, duration, delay, ease, OnComplete));
+        }
+
+        public static Coroutine ToValue(this MonoBehaviour self, float target, float endValue, float duration, float delay,
+            AnimationCurve ease, Action OnComplete = null)
+        {
+            return self.StartCoroutine(ToValueRoutine(target, endValue, duration, delay, ease, OnComplete));
+        }
+
+        private static IEnumerator ToValueRoutine(float target, float endValue, float duration, float delay,
+            Ease ease, Action OnComplete = null)
+        {
+            if (delay > 0)
+            {
+                yield return new WaitForSeconds(delay);
+            }
+
+            float epsilon = 0;
+            float startValue = target;
+            while (epsilon < duration)
+            {
+                epsilon += Time.deltaTime;
+                float t = epsilon / duration;
+                target = Mathf.Lerp(startValue, endValue, ease.Evaluate(t));
+                yield return null;
+            }
+
+            target = endValue;
+            OnComplete?.Invoke();
+        }
+
+        private static IEnumerator ToValueRoutine(float target, float endValue, float duration, float delay,
+            AnimationCurve ease, Action OnComplete = null)
+        {
+            if (delay > 0)
+            {
+                yield return new WaitForSeconds(delay);
+            }
+
+            float epsilon = 0;
+            float startValue = target;
+            while (epsilon < duration)
+            {
+                epsilon += Time.deltaTime;
+                float t = epsilon / duration;
+                target = Mathf.Lerp(startValue, endValue, ease.Evaluate(t));
+                yield return null;
+            }
+
+            target = endValue;
+            OnComplete?.Invoke();
+        }
+
+        #endregion
+
+        #region Fade
+
+        public static Coroutine DoFade(this MonoBehaviour self, Graphic target, float endValue, float duration, float delay,
+            Ease ease, Action OnComplete = null)
+        {
+            return self.StartCoroutine(DOFadeRoutine(target, endValue, duration, delay, ease, OnComplete));
+        }
+
+        public static Coroutine DoFade(this MonoBehaviour self, Graphic target, float endValue, float duration, float delay,
+            AnimationCurve ease, Action OnComplete = null)
+        {
+            return self.StartCoroutine(DOFadeRoutine(target, endValue, duration, delay, ease, OnComplete));
+        }
+
+        private static IEnumerator DOFadeRoutine(Graphic target, float endValue, float duration, float delay,
+            Ease ease, Action OnComplete = null)
+        {
+            if (delay > 0)
+            {
+                yield return new WaitForSeconds(delay);
+            }
+
+            float epsilon = 0;
+            Color startColor = target.color;
+            Color endColor = startColor;
+            endColor.a = endValue;
+            while (epsilon < duration)
+            {
+                epsilon += Time.deltaTime;
+                float t = epsilon / duration;
+                target.color = Color.Lerp(startColor, endColor, ease.Evaluate(t));
+                yield return null;
+            }
+
+            target.color = endColor;
+            OnComplete?.Invoke();
+        }
+
+        private static IEnumerator DOFadeRoutine(Graphic target, float endValue, float duration, float delay,
+            AnimationCurve ease, Action OnComplete = null)
+        {
+            if (delay > 0)
+            {
+                yield return new WaitForSeconds(delay);
+            }
+
+            float epsilon = 0;
+            Color startColor = target.color;
+            Color endColor = startColor;
+            endColor.a = endValue;
+            while (epsilon < duration)
+            {
+                epsilon += Time.deltaTime;
+                float t = epsilon / duration;
+                target.color = Color.Lerp(startColor, endColor, ease.Evaluate(t));
+                yield return null;
+            }
+
+            target.color = endColor;
+            OnComplete?.Invoke();
+        }
+
+        #endregion
+
+        #region Color
+        public static Coroutine DoColor(this MonoBehaviour self, Graphic target, Color endColor, float duration, float delay,
+            Ease ease, Action OnComplete = null)
+        {
+            return self.StartCoroutine(DOColorRoutine(target, endColor, duration, delay, ease, OnComplete));
+        }
+
+        public static Coroutine DoColor(this MonoBehaviour self, Graphic target, Color endColor, float duration, float delay,
+            AnimationCurve ease, Action OnComplete = null)
+        {
+            return self.StartCoroutine(DOColorRoutine(target, endColor, duration, delay, ease, OnComplete));
+        }
+
+        private static IEnumerator DOColorRoutine(Graphic target, Color endColor, float duration, float delay,
+            Ease ease, Action OnComplete = null)
+        {
+            if (delay > 0)
+            {
+                yield return new WaitForSeconds(delay);
+            }
+
+            float epsilon = 0;
+            Color startColor = target.color;
+            while (epsilon < duration)
+            {
+                epsilon += Time.deltaTime;
+                float t = epsilon / duration;
+                target.color = Color.Lerp(startColor, endColor, ease.Evaluate(t));
+                yield return null;
+            }
+
+            target.color = endColor;
+            OnComplete?.Invoke();
+        }
+
+        private static IEnumerator DOColorRoutine(Graphic target, Color endColor, float duration, float delay,
+            AnimationCurve ease, Action OnComplete = null)
+        {
+            if (delay > 0)
+            {
+                yield return new WaitForSeconds(delay);
+            }
+
+            float epsilon = 0;
+            Color startColor = target.color;
+            while (epsilon < duration)
+            {
+                epsilon += Time.deltaTime;
+                float t = epsilon / duration;
+                target.color = Color.Lerp(startColor, endColor, ease.Evaluate(t));
+                yield return null;
+            }
+
+            target.color = endColor;
+            OnComplete?.Invoke();
+        }
         #endregion
     }
 }
