@@ -1,23 +1,39 @@
 ﻿using System.Collections;
 using UnityEngine;
 
+#if ENABLE_INPUT_SYSTEM
+using UnityEngine.InputSystem;
+#endif
+
 namespace Moein.Core
 {
     public class SlowMotion : MonoBehaviour
     {
+        [SerializeField] private float fixedTimeStep = .02f;
+
         private float slowMotionTimeScale = .1f;
         private float slowMotionTime = .5f;
         private float fadeInTime = .5f;
         private float fadeOutTime = .5f;
 
-        public KeyCode slowMotionKey = KeyCode.E;
-
         private Coroutine coroutine;
 
-#if UNITY_EDITOR
+#if UNITY_EDITOR && !ENABLE_INPUT_SYSTEM
+        public KeyCode slowMotionKey = KeyCode.E;
+
         private void Update()
         {
             if (Input.GetKeyDown(slowMotionKey))
+            {
+                DoSlowMotion(slowMotionTimeScale, slowMotionTime, fadeInTime, fadeOutTime);
+            }
+        }
+#endif
+
+#if UNITY_EDITOR && ENABLE_INPUT_SYSTEM
+        private void Update()
+        {
+            if (Keyboard.current.backslashKey.wasPressedThisFrame)
             {
                 DoSlowMotion(slowMotionTimeScale, slowMotionTime, fadeInTime, fadeOutTime);
             }
@@ -46,12 +62,12 @@ namespace Moein.Core
             {
                 t += (1.0f / fadeTime) * Time.unscaledDeltaTime;
                 Time.timeScale = Mathf.Lerp(startScale, timeScaleTarget, t);
-                Time.fixedDeltaTime = 0.02f * Time.timeScale;
+                Time.fixedDeltaTime = fixedTimeStep * Time.timeScale;
                 yield return null;
             }
 
             Time.timeScale = timeScaleTarget;
-            Time.fixedDeltaTime = 0.02f * timeScaleTarget;
+            Time.fixedDeltaTime = fixedTimeStep * timeScaleTarget;
         }
 
         //////////////////////////////////////////////////////
