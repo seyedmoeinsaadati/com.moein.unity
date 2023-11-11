@@ -15,8 +15,8 @@ namespace Moein.Randomize
         public Vector3 minAngles;
         public Vector3 maxAngles;
 
-        public float minScale;
-        public float maxScale;
+        public Vector3 minScale = Vector3.one;
+        public Vector3 maxScale = Vector3.one;
 
         private Vector3 centerPoint, offset;
         public Vector3[] p;
@@ -211,11 +211,14 @@ namespace Moein.Randomize
             Transform[] objs = Selection.GetTransforms(SelectionMode.TopLevel);
             foreach (var item in objs)
             {
-                Undo.RegisterCompleteObjectUndo(item, "Scale");
-                float newScale = Random.Range(minScale, maxScale);
+                Undo.RegisterCompleteObjectUndo(item, "undo object position");
+                Vector3 newScale = new Vector3(Random.Range(minScale.x, maxScale.x),
+                                               Random.Range(minScale.y, maxScale.y),
+                                               Random.Range(minScale.z, maxScale.z));
 
-                item.localScale = new Vector3(newScale, newScale, newScale);
+                item.localScale = newScale;
             }
+
         }
 
         void SnapObjectPosition()
@@ -305,8 +308,8 @@ namespace Moein.Randomize
 
         private void RandomScaleGUI()
         {
-            minScale = EditorGUILayout.FloatField("Min Scale:", minScale);
-            maxScale = EditorGUILayout.FloatField("Max Scale:", maxScale);
+            minScale = EditorGUILayout.Vector3Field("Min Position:", minScale);
+            maxScale = EditorGUILayout.Vector3Field("Max Position:", maxPosition);
         }
 
         #endregion
