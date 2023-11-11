@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 
+#if ENABLE_INPUT_SYSTEM
+using UnityEngine.InputSystem;
+#endif
 namespace Moein.Core
 {
     public class AutoMotion : MonoBehaviour
@@ -16,12 +19,16 @@ namespace Moein.Core
 
         [SerializeField] MotionType motionType;
 
+#if UNITY_EDITOR && !ENABLE_INPUT_SYSTEM
         [SerializeField] KeyCode StartActionKey = KeyCode.G;
         [SerializeField] KeyCode StopActionKey = KeyCode.H;
         [SerializeField] KeyCode ReverseActionKey = KeyCode.F;
+#endif
 
         private void Update()
         {
+
+#if UNITY_EDITOR && !ENABLE_INPUT_SYSTEM
             if (Input.GetKeyUp(StartActionKey))
             {
                 StartAction();
@@ -36,10 +43,9 @@ namespace Moein.Core
             {
                 Reverse();
             }
-
+#endif
             if (isMotion) Action();
         }
-
 
         public void StartAction()
         {
