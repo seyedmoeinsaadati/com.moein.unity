@@ -7,7 +7,7 @@ namespace Moein.Randomize
 
     {
         bool mirrorX, mirrorY, mirrorZ;
-        bool lockX, lockY, lockZ;
+        bool lockPosX, lockPosY, lockPosZ;
         bool isLocal;
         public Vector3 minPosition;
         public Vector3 maxPosition;
@@ -17,6 +17,7 @@ namespace Moein.Randomize
 
         public Vector3 minScale = Vector3.one;
         public Vector3 maxScale = Vector3.one;
+        bool lockScaleX, lockScaleY, lockScaleZ;
 
         private Vector3 centerPoint, offset;
         public Vector3[] p;
@@ -75,11 +76,11 @@ namespace Moein.Randomize
                     GUILayout.Label("Lock Axes: ", GUILayout.ExpandWidth(true));
                     EditorGUILayout.BeginHorizontal();
                     GUILayout.Label("X: ");
-                    lockX = EditorGUILayout.Toggle(lockX);
+                    lockPosX = EditorGUILayout.Toggle(lockPosX);
                     GUILayout.Label("Y: ");
-                    lockY = EditorGUILayout.Toggle(lockY);
+                    lockPosY = EditorGUILayout.Toggle(lockPosY);
                     GUILayout.Label("Z: ");
-                    lockZ = EditorGUILayout.Toggle(lockZ);
+                    lockPosZ = EditorGUILayout.Toggle(lockPosZ);
                     EditorGUILayout.EndHorizontal();
 
                     GUILayout.Space(1f);
@@ -166,9 +167,9 @@ namespace Moein.Randomize
             foreach (var item in objs)
             {
                 Undo.RegisterCompleteObjectUndo(item, "undo object position");
-                Vector3 newPosition = new Vector3(lockX ? item.transform.position.x : Random.Range(minPosition.x, maxPosition.x),
-                                          lockY ? item.transform.position.y : Random.Range(minPosition.y, maxPosition.y),
-                                          lockZ ? item.transform.position.z : Random.Range(minPosition.z, maxPosition.z));
+                Vector3 newPosition = new Vector3(lockPosX ? item.transform.position.x : Random.Range(minPosition.x, maxPosition.x),
+                                          lockPosY ? item.transform.position.y : Random.Range(minPosition.y, maxPosition.y),
+                                          lockPosZ ? item.transform.position.z : Random.Range(minPosition.z, maxPosition.z));
                 newPosition += offset;
 
                 // later: add isSnap
@@ -190,9 +191,9 @@ namespace Moein.Randomize
             {
                 Quaternion oldRotation = isLocal ? item.localRotation : item.rotation;
                 Undo.RegisterCompleteObjectUndo(item, isLocal ? "Local Rotation" : "Rotation");
-                Vector3 newRotationAngles = new Vector3(lockX ? oldRotation.x : Random.Range(minAngles.x, maxAngles.x),
-                                          lockY ? oldRotation.y : Random.Range(minAngles.y, maxAngles.y),
-                                          lockZ ? oldRotation.z : Random.Range(minAngles.z, maxAngles.z));
+                Vector3 newRotationAngles = new Vector3(lockPosX ? oldRotation.x : Random.Range(minAngles.x, maxAngles.x),
+                                          lockPosY ? oldRotation.y : Random.Range(minAngles.y, maxAngles.y),
+                                          lockPosZ ? oldRotation.z : Random.Range(minAngles.z, maxAngles.z));
 
                 Quaternion newRotation = Quaternion.Euler(newRotationAngles);
                 if (isLocal)
@@ -209,12 +210,14 @@ namespace Moein.Randomize
         private void RandomizeScale()
         {
             Transform[] objs = Selection.GetTransforms(SelectionMode.TopLevel);
+
             foreach (var item in objs)
             {
-                Undo.RegisterCompleteObjectUndo(item, "undo object position");
-                Vector3 newScale = new Vector3(Random.Range(minScale.x, maxScale.x),
-                                               Random.Range(minScale.y, maxScale.y),
-                                               Random.Range(minScale.z, maxScale.z));
+                Undo.RegisterCompleteObjectUndo(item, "undo object scale");
+
+                Vector3 newScale = new Vector3(lockScaleX ? item.transform.localScale.x : Random.Range(minScale.x, maxScale.x),
+                                         lockScaleY ? item.transform.localScale.y : Random.Range(minScale.y, maxScale.y),
+                                         lockScaleZ ? item.transform.localScale.z : Random.Range(minScale.z, maxScale.z));
 
                 item.localScale = newScale;
             }
@@ -289,11 +292,11 @@ namespace Moein.Randomize
             GUILayout.Label("Lock Axes: ", GUILayout.ExpandWidth(true));
             EditorGUILayout.BeginHorizontal();
             GUILayout.Label("X: ");
-            lockX = EditorGUILayout.Toggle(lockX);
+            lockPosX = EditorGUILayout.Toggle(lockPosX);
             GUILayout.Label("Y: ");
-            lockY = EditorGUILayout.Toggle(lockY);
+            lockPosY = EditorGUILayout.Toggle(lockPosY);
             GUILayout.Label("Z: ");
-            lockZ = EditorGUILayout.Toggle(lockZ);
+            lockPosZ = EditorGUILayout.Toggle(lockPosZ);
             EditorGUILayout.EndHorizontal();
 
             GUILayout.Space(1f);
@@ -308,8 +311,19 @@ namespace Moein.Randomize
 
         private void RandomScaleGUI()
         {
-            minScale = EditorGUILayout.Vector3Field("Min Position:", minScale);
-            maxScale = EditorGUILayout.Vector3Field("Max Position:", maxPosition);
+            minScale = EditorGUILayout.Vector3Field("Min Scale:", minScale);
+            maxScale = EditorGUILayout.Vector3Field("Max Scale:", maxScale);
+
+            GUILayout.Space(1f);
+            GUILayout.Label("Lock Axes: ", GUILayout.ExpandWidth(true));
+            EditorGUILayout.BeginHorizontal();
+            GUILayout.Label("X: ");
+            lockScaleX = EditorGUILayout.Toggle(lockScaleX);
+            GUILayout.Label("Y: ");
+            lockScaleY = EditorGUILayout.Toggle(lockScaleY);
+            GUILayout.Label("Z: ");
+            lockScaleZ = EditorGUILayout.Toggle(lockScaleZ);
+            EditorGUILayout.EndHorizontal();
         }
 
         #endregion
