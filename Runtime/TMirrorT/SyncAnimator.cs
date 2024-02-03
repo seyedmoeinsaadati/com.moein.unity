@@ -175,6 +175,18 @@ namespace Moein.Mirror
             }
         }
 
+	public void SetLayerWeight(int layerIndex, float value)
+        {
+            _animator.SetLayerWeight(layerIndex, value);
+
+            if (syncAnimators.Count > 0)
+            {
+                for (int i = 0; i < syncAnimators.Count; i++)
+                {
+                    syncAnimators[i].SetLayerWeight(layerIndex, value);
+                }
+            }
+        }
 
         private void Reset()
         {

@@ -4,7 +4,6 @@ namespace Moein.Randomize
 {
 
     public class RandomizeEditor : EditorWindow
-
     {
         bool mirrorX, mirrorY, mirrorZ;
         bool lockPosX, lockPosY, lockPosZ;
@@ -248,7 +247,6 @@ namespace Moein.Randomize
         }
 
         #endregion
-
 
         #region GUI
 
