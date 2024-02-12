@@ -1,10 +1,7 @@
 ﻿using UnityEngine;
 
-
 namespace Moein.Physics
 {
-
-    [RequireComponent(typeof(BoxCollider))]
     public class TriggerArea : MonoBehaviour
     {
         public bool oneTimeUse;
@@ -14,7 +11,7 @@ namespace Moein.Physics
         [Tooltip("if checked, it just works for \"Player\" tag.")]
         public bool onlyPlayer;
 
-        void OnTriggerEnter(Collider other)
+        private void OnTriggerEnter(Collider other)
         {
             if (!active) return;
             if (debugMode) Debug.Log(other.name + "Entered.");
@@ -34,7 +31,7 @@ namespace Moein.Physics
             }
         }
 
-        void OnTriggerExit(Collider other)
+        private void OnTriggerExit(Collider other)
         {
             if (!active) return;
             if (debugMode) Debug.Log(other.name + "Exited.");
@@ -54,7 +51,7 @@ namespace Moein.Physics
             }
         }
 
-        void OnTriggerStay(Collider other)
+        private void OnTriggerStay(Collider other)
         {
             if (!active) return;
             if (debugMode) Debug.Log(other.name + "Staying.");
@@ -72,17 +69,8 @@ namespace Moein.Physics
             }
         }
 
-        public virtual void Enter(Collider other)
-        {
-        }
-
-        public virtual void Exit(Collider other)
-        {
-        }
-
-        public virtual void Stay(Collider other)
-        {
-        }
-
+        public virtual void Enter(Collider other) { }
+        public virtual void Exit(Collider other) { }
+        public virtual void Stay(Collider other) { }
     }
 }
