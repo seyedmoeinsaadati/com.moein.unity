@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using UnityEditor;
 using System.Collections.Generic;
+using UnityEditor.Build;
+using UnityEditor.Build.Reporting;
 
 namespace Moein.Core
 {
@@ -10,22 +12,28 @@ namespace Moein.Core
         public class BuildScenesAsset
         {
             public string name;
-            public List<SceneAsset> scenes = new List<SceneAsset>();
+            public List<SceneAsset> scenes = new();
         }
 
         [Header("Build Scenes")]
-        [SerializeField] private List<BuildScenesAsset> sceneBundles = new List<BuildScenesAsset>();
+        [SerializeField] private List<BuildScenesAsset> sceneBundles = new();
         [SerializeField] private int currentSceneBundleIndex = 0;
 
-        internal static void SetEditorBuildSettingsScenes()
+        [SerializeField] private string productVersion = "1.0.0";
+
+        ///////////////////////////////////////
+        /// STATIC MEMBERS
+        ///////////////////////////////////////
+
+        internal static bool SetEditorBuildSettingsScenes()
         {
-            List<EditorBuildSettingsScene> editorBuildSettingsScenes = new List<EditorBuildSettingsScene>();
+            List<EditorBuildSettingsScene> editorBuildSettingsScenes = new();
 
-            if (BuildSetting.Instance.currentSceneBundleIndex < 0 ||
-                BuildSetting.Instance.currentSceneBundleIndex >= BuildSetting.Instance.sceneBundles.Count)
-                return;
+            if (Instance.currentSceneBundleIndex < 0 ||
+                Instance.currentSceneBundleIndex >= Instance.sceneBundles.Count)
+                return false;
 
-            var sceneBundle = BuildSetting.Instance.sceneBundles[BuildSetting.Instance.currentSceneBundleIndex];
+            var sceneBundle = BuildSetting.Instance.sceneBundles[Instance.currentSceneBundleIndex];
             foreach (var scene in sceneBundle.scenes)
             {
                 var path = AssetDatabase.GetAssetPath(scene);
@@ -33,14 +41,35 @@ namespace Moein.Core
                     editorBuildSettingsScenes.Add(new EditorBuildSettingsScene(path, true));
             }
             EditorBuildSettings.scenes = editorBuildSettingsScenes.ToArray();
+            PlayerSettings.bundleVersion = Instance.productVersion + "." + Instance.version;
+
+            return true;
         }
 
         [MenuItem("Moein/Build Setting")]
         public static void SelectConfig()
         {
-            Selection.activeObject = BuildSetting.Instance;
+            Selection.activeObject = Instance;
             return;
         }
+
+#if UNITY_EDITOR
+
+        public class PreBuildProcessor : IPreprocessBuildWithReport
+        {
+            public int callbackOrder => -999999;
+
+            public void OnPreprocessBuild(BuildReport report)
+            {
+                Instance.version++;
+                PlayerSettings.bundleVersion = Instance.productVersion + "." + Instance.version;
+                Debug.Log($"BuildSetting: PreBuildProcessor: Compeleted. (order: {callbackOrder})");
+
+                AssetDatabase.SaveAssets();
+            }
+        }
+#endif
+
     }
 
     [CustomEditor(typeof(BuildSetting))]

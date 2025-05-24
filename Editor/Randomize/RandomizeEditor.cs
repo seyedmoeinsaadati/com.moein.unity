@@ -12,9 +12,9 @@ namespace Moein.Randomize
         public Vector3 maxPosition;
 
         public Vector3 minAngles;
-        public Vector3 maxAngles;
+        public Vector3 maxAngles = new Vector3(360, 360, 360);
 
-        public Vector3 minScale = Vector3.one;
+        public Vector3 minScale = Vector3.zero;
         public Vector3 maxScale = Vector3.one;
         bool lockScaleX, lockScaleY, lockScaleZ;
 
