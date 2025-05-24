@@ -5,7 +5,7 @@ namespace Moein.Modifier
 {
     public class ArrayModifier : MonoBehaviour
     {
-        [SerializeField] private Transform original;
+        [SerializeField] private Transform[] originals;
         [SerializeField] private Transform objectOffset;
         [SerializeField] private int count;
 
@@ -25,11 +25,13 @@ namespace Moein.Modifier
         public void CreateObjects()
         {
             objects.Clear();
-            objects.Add(original);
 
-            for (int i = 1; i < count; i++)
+            foreach (Transform original in originals)
+                objects.Add(original);
+
+            for (int i = originals.Length; i < count; i++)
             {
-                var newObj = Instantiate(original, original.parent);
+                var newObj = Instantiate(originals[i % originals.Length], originals[0].parent);
                 objects.Add(newObj.transform);
             }
         }
@@ -39,7 +41,7 @@ namespace Moein.Modifier
             scaleRatio.x = objectOffset.localScale.x / objects[0].localScale.x;
             scaleRatio.y = objectOffset.localScale.y / objects[0].localScale.y;
             scaleRatio.z = objectOffset.localScale.z / objects[0].localScale.z;
-            positionOffset = objectOffset.position - objects[0].position;
+            positionOffset = transform.TransformDirection(objectOffset.position - objects[0].position);
 
             UpdateTransforms();
         }

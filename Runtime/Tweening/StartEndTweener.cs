@@ -16,9 +16,14 @@ namespace Moein.Tweening
         [SerializeField] private int groupId = 0;
         [SerializeField] private bool isStart;
 
+#if UNITY_EDITOR
+        [Range(0, 1), SerializeField] private float preview;
+#endif
+
         private Coroutine movingRoutine;
         private Coroutine rotatingRoutine;
         private Coroutine scaleRoutine;
+        private Quaternion startLocalQuaternion, endLocalQuaternion;
 
         // editor fields
         [HideInInspector] public bool showStates = true;
@@ -27,6 +32,9 @@ namespace Moein.Tweening
 
         private void Start()
         {
+            startLocalQuaternion = Quaternion.Euler(startLocalRotation);
+            endLocalQuaternion = Quaternion.Euler(endLocalRotation);
+
             if (autoStart) ToEnd();
         }
 
@@ -71,7 +79,7 @@ namespace Moein.Tweening
             }
 
             if (movingRoutine != null) StopCoroutine(movingRoutine);
-            movingRoutine = this.DOPosition(transform, startLocalPosition, duration, delay, ease);
+            movingRoutine = this.DOPosition(transform, startLocalPosition, duration, delay, ease, OnComplete: OnComplete);
 
             if (rotatingRoutine != null) StopCoroutine(rotatingRoutine);
             rotatingRoutine = this.DORotation(transform, startLocalRotation, duration, delay, ease);
@@ -92,17 +100,29 @@ namespace Moein.Tweening
             }
         }
 
+        public void Lerp(float t)
+        {
+            transform.localPosition = Vector3.LerpUnclamped(startLocalPosition, endLocalPosition, ease.Evaluate(t));
+            transform.localRotation = Quaternion.Slerp(startLocalQuaternion, endLocalQuaternion, ease.Evaluate(t));
+            transform.localScale = Vector3.LerpUnclamped(startScale, endScale, ease.Evaluate(t));
+        }
+
 #if UNITY_EDITOR
         private GUIStyle style = new GUIStyle();
-        void OnDrawGizmos()
+        private void OnDrawGizmos()
         {
-            style.normal.textColor = Color.black;
+            style.normal.textColor = Color.white;
             style.alignment = TextAnchor.MiddleCenter;
             Handles.Label(transform.position, groupId.ToString(), style);
         }
-#endif
 
-        #region Editor Functions
+        private void OnValidate()
+        {
+            startLocalQuaternion = Quaternion.Euler(startLocalRotation);
+            endLocalQuaternion = Quaternion.Euler(endLocalRotation);
+
+            Lerp(preview);
+        }
 
         private void Reset()
         {
@@ -142,8 +162,7 @@ namespace Moein.Tweening
             }
         }
 
-        #endregion
-
+#endif
         /////////////////////////////////
         /// Static Members
         /////////////////////////////////
@@ -231,18 +250,26 @@ namespace Moein.Tweening
             tweenObject.showStates = EditorGUILayout.Foldout(tweenObject.showStates, "States");
             if (tweenObject.showStates)
             {
-                tweenObject.startLocalPosition = EditorGUILayout.Vector3Field("Start Local Position", tweenObject.startLocalPosition);
-                tweenObject.startLocalRotation = EditorGUILayout.Vector3Field("Start Local Rotation", tweenObject.startLocalRotation);
-                tweenObject.startScale = EditorGUILayout.Vector3Field("Start Scale", tweenObject.startScale);
+                var startLocalPosition = serializedObject.FindProperty("startLocalPosition");
+                EditorGUILayout.PropertyField(startLocalPosition);
+                var startLocalRotation = serializedObject.FindProperty("startLocalRotation");
+                EditorGUILayout.PropertyField(startLocalRotation);
+                var startScale = serializedObject.FindProperty("startScale");
+                EditorGUILayout.PropertyField(startScale);
 
-                tweenObject.endLocalPosition = EditorGUILayout.Vector3Field("End Local Position", tweenObject.endLocalPosition);
-                tweenObject.endLocalRotation = EditorGUILayout.Vector3Field("End Local Rotation", tweenObject.endLocalRotation);
-                tweenObject.endScale = EditorGUILayout.Vector3Field("End Scale", tweenObject.endScale);
+                var endLocalPosition = serializedObject.FindProperty("endLocalPosition");
+                EditorGUILayout.PropertyField(endLocalPosition);
+                var endLocalRotation = serializedObject.FindProperty("endLocalRotation");
+                EditorGUILayout.PropertyField(endLocalRotation);
+                var endScale = serializedObject.FindProperty("endScale");
+                EditorGUILayout.PropertyField(endScale);
             }
+
+            serializedObject.ApplyModifiedProperties();
 
             if (Application.isPlaying)
             {
-                EditorGUILayout.LabelField("Groups");
+                EditorGUILayout.LabelField("Preview Groups");
                 groupId = EditorGUILayout.IntField("Group Id", groupId);
                 GUILayout.BeginHorizontal();
                 if (GUILayout.Button($"To End ({groupId})"))

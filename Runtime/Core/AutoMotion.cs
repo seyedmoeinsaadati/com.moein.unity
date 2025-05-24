@@ -1,8 +1,5 @@
 ﻿using UnityEngine;
 
-#if ENABLE_INPUT_SYSTEM
-using UnityEngine.InputSystem;
-#endif
 namespace Moein.Core
 {
     public class AutoMotion : MonoBehaviour

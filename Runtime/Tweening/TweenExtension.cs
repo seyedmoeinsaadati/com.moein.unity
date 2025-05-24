@@ -251,12 +251,12 @@ namespace Moein.Tweening
         #endregion
 
         #region Value
-
         public static Coroutine ToValue(this MonoBehaviour self, float target, float endValue, float duration, float delay,
           Ease ease, Action OnComplete = null)
         {
             return self.StartCoroutine(ToValueRoutine(target, endValue, duration, delay, ease, OnComplete));
         }
+
 
         public static Coroutine ToValue(this MonoBehaviour self, float target, float endValue, float duration, float delay,
             AnimationCurve ease, Action OnComplete = null)
@@ -372,6 +372,66 @@ namespace Moein.Tweening
             OnComplete?.Invoke();
         }
 
+        public static Coroutine DoFade(this MonoBehaviour self, CanvasGroup target, float endValue, float duration, float delay,
+         Ease ease, Action OnComplete = null)
+        {
+            return self.StartCoroutine(DOFadeRoutine(target, endValue, duration, delay, ease, OnComplete));
+        }
+
+        public static Coroutine DoFade(this MonoBehaviour self, CanvasGroup target, float endValue, float duration, float delay,
+            AnimationCurve ease, Action OnComplete = null)
+        {
+            return self.StartCoroutine(DOFadeRoutine(target, endValue, duration, delay, ease, OnComplete));
+        }
+
+        private static IEnumerator DOFadeRoutine(CanvasGroup target, float endValue, float duration, float delay,
+            Ease ease, Action OnComplete = null)
+        {
+            if (delay > 0)
+            {
+                yield return new WaitForSeconds(delay);
+            }
+
+            float epsilon = 0;
+            float startFade = target.alpha;
+            float endFade = endValue;
+
+            while (epsilon < duration)
+            {
+                epsilon += Time.unscaledDeltaTime;
+                float t = epsilon / duration;
+                target.alpha = Mathf.Lerp(startFade, endFade, ease.Evaluate(t));
+                yield return null;
+            }
+
+            target.alpha = endFade;
+            OnComplete?.Invoke();
+        }
+
+        private static IEnumerator DOFadeRoutine(CanvasGroup target, float endValue, float duration, float delay,
+            AnimationCurve ease, Action OnComplete = null)
+        {
+            if (delay > 0)
+            {
+                yield return new WaitForSeconds(delay);
+            }
+
+            float epsilon = 0;
+            float startFade = target.alpha;
+            float endFade = endValue;
+
+            while (epsilon < duration)
+            {
+                epsilon += Time.unscaledDeltaTime;
+                float t = epsilon / duration;
+                target.alpha = Mathf.Lerp(startFade, endFade, ease.Evaluate(t));
+                yield return null;
+            }
+
+            target.alpha = endFade;
+            OnComplete?.Invoke();
+        }
+
         #endregion
 
         #region Color
@@ -387,6 +447,12 @@ namespace Moein.Tweening
             return self.StartCoroutine(DOColorRoutine(target, endColor, duration, delay, ease, OnComplete));
         }
 
+        public static Coroutine DoColor(this MonoBehaviour self, Renderer target, string colorKey, Color endColor, float duration, float delay,
+            Ease ease, Action OnComplete = null)
+        {
+            return self.StartCoroutine(DOColorRoutine(target, colorKey, endColor, duration, delay, ease, OnComplete));
+        }
+
         private static IEnumerator DOColorRoutine(Graphic target, Color endColor, float duration, float delay,
             Ease ease, Action OnComplete = null)
         {
@@ -430,6 +496,97 @@ namespace Moein.Tweening
             target.color = endColor;
             OnComplete?.Invoke();
         }
+
+        private static IEnumerator DOColorRoutine(Renderer target, string colorKey, Color endColor, float duration, float delay,
+           Ease ease, Action OnComplete = null)
+        {
+            if (target.material.HasColor(colorKey) == false) yield break;
+
+            if (delay > 0)
+            {
+                yield return new WaitForSeconds(delay);
+            }
+
+            float epsilon = 0;
+
+            Color startColor = target.material.GetColor(colorKey);
+            while (epsilon < duration)
+            {
+                epsilon += Time.deltaTime;
+                float t = epsilon / duration;
+                target.material.SetColor(colorKey, Color.Lerp(startColor, endColor, ease.Evaluate(t)));
+                yield return null;
+            }
+
+            target.material.SetColor(colorKey, endColor);
+            OnComplete?.Invoke();
+        }
+        #endregion
+
+        #region Rigidbody
+
+        public static Coroutine ToVelocity(this MonoBehaviour self, Rigidbody target, Vector3 endValue, float duration, float delay,
+            Ease ease, Action OnComplete = null)
+        {
+            return self.StartCoroutine(ToVelocityRoutine(target, endValue, duration, delay, ease, OnComplete));
+        }
+
+        public static Coroutine ToVelocity(this MonoBehaviour self, Rigidbody target, Vector3 endValue, float duration, float delay,
+            AnimationCurve ease, Action OnComplete = null)
+        {
+            return self.StartCoroutine(ToVelocityRoutine(target, endValue, duration, delay, ease, OnComplete));
+        }
+
+        private static IEnumerator ToVelocityRoutine(Rigidbody target, Vector3 endValue, float duration, float delay,
+            Ease ease, Action OnComplete = null)
+        {
+            if (delay > 0)
+            {
+                yield return new WaitForSeconds(delay);
+            }
+
+            float epsilon = 0;
+            Vector3 startValue = target.velocity;
+            while (epsilon < duration)
+            {
+                epsilon += Time.deltaTime;
+                float t = epsilon / duration;
+                target.velocity = Vector3.Lerp(startValue, endValue, ease.Evaluate(t));
+                target.angularVelocity = Vector3.Lerp(startValue, endValue, ease.Evaluate(t));
+                yield return null;
+            }
+
+            target.velocity = endValue;
+            target.angularVelocity = endValue;
+            OnComplete?.Invoke();
+        }
+
+        private static IEnumerator ToVelocityRoutine(Rigidbody target, Vector3 endValue, float duration, float delay,
+            AnimationCurve ease, Action OnComplete = null)
+        {
+            if (delay > 0)
+            {
+                yield return new WaitForSeconds(delay);
+            }
+
+            float epsilon = 0;
+            Vector3 startValue = target.velocity;
+            while (epsilon < duration)
+            {
+                epsilon += Time.deltaTime;
+                float t = epsilon / duration;
+                target.velocity = Vector3.Lerp(startValue, endValue, ease.Evaluate(t));
+                target.angularVelocity = Vector3.Lerp(startValue, endValue, ease.Evaluate(t));
+                yield return null;
+            }
+
+            target.velocity = endValue;
+            target.angularVelocity = endValue;
+            OnComplete?.Invoke();
+        }
+
+
+
         #endregion
     }
 }

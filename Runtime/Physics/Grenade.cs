@@ -1,6 +1,10 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
+#if ENABLE_INPUT_SYSTEM
+using UnityEngine.InputSystem;
+#endif
+
 namespace Moein.Physics
 {
     public class Grenade : MonoBehaviour
@@ -15,7 +19,10 @@ namespace Moein.Physics
         public Vector3 point;
 
         public float radius, force;
-        public KeyCode explodeKey = KeyCode.H;
+
+#if !ENABLE_INPUT_SYSTEM
+        public KeyCode explodeKey = KeyCode.J;
+#endif
 
         float countdown;
         // Use this for initialization
@@ -32,13 +39,13 @@ namespace Moein.Physics
             switch (activeType)
             {
                 case GrenadeType.Manual:
-                    if (Input.GetKeyDown(explodeKey))
+                    if (CheckExplodeKeyInputPressed())
                     {
                         Explode();
                     }
                     break;
                 case GrenadeType.ManualPlusDelay:
-                    if (Input.GetKeyDown(explodeKey))
+                    if (CheckExplodeKeyInputPressed())
                     {
                         activeType = GrenadeType.Delay;
                     }
@@ -88,6 +95,15 @@ namespace Moein.Physics
             }
         }
 
+        private bool CheckExplodeKeyInputPressed()
+        {
+#if !ENABLE_INPUT_SYSTEM
+            return Input.GetKeyDown(explodeKey);
+#else
+            return Keyboard.current.jKey.wasPressedThisFrame;
+#endif
+        }
+
         void OnDrawGizmos()
         {
             Gizmos.color = Color.red;
@@ -106,7 +122,6 @@ namespace Moein.Physics
 
             Gizmos.color = Color.red;
             Gizmos.DrawSphere(point, .3f);
-
         }
     }
 

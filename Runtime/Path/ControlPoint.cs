@@ -124,7 +124,7 @@ namespace Moein.Path
             switch (PathConfig.controlType)
             {
                 case PathConfig.ControlType.FreeMove:
-                    newPos = Handles.FreeMoveHandle(point.StartTangent, Quaternion.identity, PathConfig.controlDiameter,
+                    newPos = Handles.FreeMoveHandle(point.StartTangent, PathConfig.controlDiameter,
                         Vector3.zero, Handles.SphereHandleCap);
                     break;
                 case PathConfig.ControlType.MoveHandle:
@@ -147,7 +147,7 @@ namespace Moein.Path
             switch (PathConfig.controlType)
             {
                 case PathConfig.ControlType.FreeMove:
-                    newPos = Handles.FreeMoveHandle(point.EndTangent, Quaternion.identity, PathConfig.controlDiameter,
+                    newPos = Handles.FreeMoveHandle(point.EndTangent, PathConfig.controlDiameter,
                         Vector3.zero, Handles.SphereHandleCap);
                     break;
                 case PathConfig.ControlType.MoveHandle:

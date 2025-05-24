@@ -7,11 +7,6 @@ namespace Moein.Mirror
         [SerializeField] private Animator animator;
         [SerializeField] private SyncAnimator target;
 
-        private void Reset()
-        {
-            animator = GetComponent<Animator>();
-        }
-
         public void SetTarget(SyncAnimator target)
         {
             if (this.target != null)
@@ -22,12 +17,21 @@ namespace Moein.Mirror
 
         private void OnEnable()
         {
+            if (target == null) return;
             target.Add(animator);
         }
 
         private void OnDisable()
         {
+            if (target == null) return;
             target.Remove(animator);
         }
+
+#if UNITY_EDITOR
+        private void Reset()
+        {
+            animator = GetComponent<Animator>();
+        }
+#endif
     }
 }

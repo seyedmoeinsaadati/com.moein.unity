@@ -117,6 +117,21 @@ namespace Moein.Core
             return new Vector2(self.y, self.z);
         }
 
+        public static Vector3 ToXZ(this Vector2 self, float yValue = 0)
+        {
+            return new Vector3(self.x, yValue, self.y);
+        }
+
+        public static Vector3 ToXY(this Vector2 self, float zValue = 0)
+        {
+            return new Vector3(self.x, self.y, zValue);
+        }
+
+        public static Vector3 ToYZ(this Vector2 self, float xValue = 0)
+        {
+            return new Vector3(xValue, self.x, self.y);
+        }
+
         public static Vector3 ToXZ(this Vector3 self, float yValue = 0)
         {
             self.y = yValue;

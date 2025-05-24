@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 
 #if ENABLE_INPUT_SYSTEM
@@ -35,7 +36,7 @@ namespace Moein.Core
         {
             if (Keyboard.current.backslashKey.wasPressedThisFrame)
             {
-                DoSlowMotion(slowMotionTimeScale, slowMotionTime, fadeInTime, fadeOutTime);
+                DoBulletTimeEffect(slowMotionTimeScale, slowMotionTime, fadeInTime, fadeOutTime);
             }
         }
 #endif
@@ -43,14 +44,23 @@ namespace Moein.Core
         public void DoSlowMotion()
         {
             if (coroutine != null) StopCoroutine(coroutine);
-            coroutine = StartCoroutine(SlowMotionRoutine());
+            coroutine = StartCoroutine(BulletTimeRoutine());
         }
 
-        private IEnumerator SlowMotionRoutine()
+
+        private void DoScale(float timeScaleTarget, float fadeTime)
         {
+            if (coroutine != null) StopCoroutine(coroutine);
+            coroutine = StartCoroutine(ToTimeScale(timeScaleTarget, fadeTime));
+        }
+
+        private IEnumerator BulletTimeRoutine()
+        {
+            OnSlowMotionStarted?.Invoke();
             yield return ToTimeScale(slowMotionTimeScale, fadeInTime);
             yield return new WaitForSecondsRealtime(slowMotionTime);
             yield return ToTimeScale(1, fadeOutTime);
+            OnSlowMotionEnded?.Invoke();
         }
 
         private IEnumerator ToTimeScale(float timeScaleTarget, float fadeTime)
@@ -73,13 +83,28 @@ namespace Moein.Core
         //////////////////////////////////////////////////////
         /// STATIC MEMBERS
         //////////////////////////////////////////////////////
-        public static void DoSlowMotion(float timeScale, float slowMotionTime, float fadeInTime, float fadeOutTime)
+        public static event Action OnSlowMotionStarted = null;
+        public static event Action OnSlowMotionEnded = null;
+
+        public static void DoBulletTimeEffect(float timeScale, float slowMotionTime, float fadeInTime, float fadeOutTime)
         {
             Instance.slowMotionTimeScale = timeScale;
             Instance.slowMotionTime = slowMotionTime;
             Instance.fadeOutTime = fadeOutTime;
             Instance.fadeInTime = fadeInTime;
             Instance.DoSlowMotion();
+        }
+
+        public static void StartSlowMotion(float timeScale, float fadeInTime)
+        {
+            OnSlowMotionStarted?.Invoke();
+            Instance.DoScale(timeScale, fadeInTime);
+        }
+
+        public static void EndSlowMotion(float fadeTime)
+        {
+            Instance.DoScale(1, fadeTime);
+            OnSlowMotionEnded?.Invoke();
         }
 
         // remove here if you do not need singletone SlowMotion

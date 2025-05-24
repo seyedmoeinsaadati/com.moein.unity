@@ -175,7 +175,7 @@ namespace Moein.Mirror
             }
         }
 
-	public void SetLayerWeight(int layerIndex, float value)
+        public void SetLayerWeight(int layerIndex, float value)
         {
             _animator.SetLayerWeight(layerIndex, value);
 
