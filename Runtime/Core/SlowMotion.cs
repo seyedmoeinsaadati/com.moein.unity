@@ -26,7 +26,7 @@ namespace Moein.Core
         {
             if (Input.GetKeyDown(slowMotionKey))
             {
-                DoSlowMotion(slowMotionTimeScale, slowMotionTime, fadeInTime, fadeOutTime);
+                DoSlowMotion();
             }
         }
 #endif
